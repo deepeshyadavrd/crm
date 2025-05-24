@@ -41,7 +41,7 @@ class Auth extends CI_Controller {
         } else {
             // Login failed, redirect back to login with error
             $this->session->set_flashdata('error', 'Invalid username or password or inactive user.');
-            // redirect('auth/login');
+            redirect('auth/login');
         }
     }
 
