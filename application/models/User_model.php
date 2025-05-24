@@ -33,5 +33,21 @@ class User_model extends CI_Model {
         }
         return false; // User not found or password incorrect
     }
+    /**
+     * Get a list of all users from the OpenCart 'user' table.
+     * @return array An array of user objects, or an empty array if none found.
+     */
+    public function get_all_opencart_users() {
+        // You might want to filter sensitive columns like 'password' and 'salt' in a real CRM
+        $this->db->select('user_id, username, user_group_id, firstname, lastname, email, status, date_added');
+        $this->db->from('user'); // Corresponds to oc_user
+        $this->db->order_by('username', 'ASC');
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array(); // Return an array of user arrays
+        }
+        return []; // Return an empty array if no users found
+    }
 
 }
