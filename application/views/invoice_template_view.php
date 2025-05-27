@@ -33,7 +33,7 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="https://placehold.co/100x50/007bff/ffffff?text=Your+Logo" class="company-logo" alt="Company Logo">
+                                <img src="https://www.urbanwood.in/catalog/view/javascript/assets/image/urbanwoodlogo.png" class="company-logo" alt="Company Logo 1">
                             </td>
                             <td>
                                 Invoice #: <?php echo htmlspecialchars($order['order_id']); ?><br>
@@ -50,11 +50,11 @@
                     <table>
                         <tr>
                             <td>
-                                Your Company Name<br>
-                                Your Company Address Line 1<br>
-                                Your Company Address Line 2<br>
-                                Your Company Phone: <?php echo htmlspecialchars('YOUR_COMPANY_PHONE'); ?><br>
-                                Your Company Email: <?php echo htmlspecialchars('YOUR_COMPANY_EMAIL'); ?>
+                                Urbanwood Furnitures Pvt Ltd<br>
+                                Y136, Udyog Vihar Phase 1<br>
+                                Secto 20, Gurgaon, Haryana<br>
+                                Phone: <?php echo htmlspecialchars('9311662218'); ?><br>
+                                Email: <?php echo htmlspecialchars('support@urbanwood.in'); ?>
                             </td>
                             <td>
                                 <?php echo htmlspecialchars($order['customer_firstname'] . ' ' . $order['customer_lastname']); ?><br>
@@ -75,7 +75,7 @@
                 <td>Check #</td>
             </tr>
             <tr class="details">
-                <td><?php echo htmlspecialchars($order['payment_method']); ?></td>
+                <td><?php echo $order['payment_method']; ?></td>
                 <td><?php echo htmlspecialchars($order['payment_code']); ?></td>
             </tr>
 
@@ -102,12 +102,12 @@
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <tr class="total">
+            <!-- <tr class="total">
                 <td></td>
                 <td class="text-right strong">
                     Total: <?php echo htmlspecialchars($order['currency_code']); ?> <?php echo number_format($order['total'], 2); ?>
                 </td>
-            </tr>
+            </tr> -->
 
             <tr>
                 <td colspan="2" class="text-center" style="padding-top: 30px;">

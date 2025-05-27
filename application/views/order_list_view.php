@@ -80,7 +80,6 @@
     <div class="sidebar">
         <div class="logo-section">
             <img src="<?php echo base_url('assets/images/crm_logo.png'); ?>" alt="CRM Logo">
-            <h2>Your CRM Name</h2>
         </div>
         <nav>
             <ul>
