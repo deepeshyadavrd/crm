@@ -19,7 +19,7 @@
         .rtl { direction: rtl; }
         .rtl table { text-align: right; }
         .rtl table tr td:nth-child(2) { text-align: left; }
-        .company-logo { max-width: 100px; height: auto; }
+        .company-logo { max-width: 150px; height: auto; }
         .text-center { text-align: center; }
         .text-right { text-align: right; }
         .strong { font-weight: bold; }
@@ -58,10 +58,10 @@
                             </td>
                             <td>
                                 <?php echo htmlspecialchars($order['customer_firstname'] . ' ' . $order['customer_lastname']); ?><br>
-                                <?php echo htmlspecialchars($order['shipping_address_1']); ?><br>
-                                <?php echo htmlspecialchars($order['shipping_address_2']); ?><br>
-                                <?php echo htmlspecialchars($order['shipping_city'] . ', ' . $order['shipping_postcode']); ?><br>
-                                <?php echo htmlspecialchars($order['shipping_zone']); ?>, <?php echo htmlspecialchars($order['shipping_country']); ?><br>
+                                <?php echo htmlspecialchars($order['payment_address_1']); ?><br>
+                                <?php echo htmlspecialchars($order['payment_address_2']); ?><br>
+                                <?php echo htmlspecialchars($order['payment_city'] . ', ' . $order['payment_postcode']); ?><br>
+                                <?php echo htmlspecialchars($order['payment_zone']); ?>, <?php echo htmlspecialchars($order['payment_country']); ?><br>
                                 <?php echo htmlspecialchars($order['customer_email']); ?><br>
                                 <?php echo htmlspecialchars($order['customer_telephone']); ?>
                             </td>
