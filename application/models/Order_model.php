@@ -10,7 +10,7 @@ class Order_model extends CI_Model {
     public function get_all_orders() {
         $this->db->select(
             'o.order_id, o.invoice_no, o.date_added, o.total, o.currency_code, ' .
-            'c.firstname AS customer_firstname, c.lastname AS customer_lastname, ' .
+            'o.firstname AS firstname, o.lastname AS lastname, ' .
             'os.name AS order_status_name'
         );
         $this->db->from('oc_order o'); // oc_order

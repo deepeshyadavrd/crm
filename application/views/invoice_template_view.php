@@ -57,13 +57,13 @@
                                 Email: <?php echo htmlspecialchars('support@urbanwood.in'); ?>
                             </td>
                             <td>
-                                <?php echo htmlspecialchars($order['customer_firstname'] . ' ' . $order['customer_lastname']); ?><br>
+                                <?php echo htmlspecialchars($order['firstname'] . ' ' . $order['lastname']); ?><br>
                                 <?php echo htmlspecialchars($order['payment_address_1']); ?><br>
                                 <?php echo htmlspecialchars($order['payment_address_2']); ?><br>
                                 <?php echo htmlspecialchars($order['payment_city'] . ', ' . $order['payment_postcode']); ?><br>
                                 <?php echo htmlspecialchars($order['payment_zone']); ?>, <?php echo htmlspecialchars($order['payment_country']); ?><br>
-                                <?php echo htmlspecialchars($order['customer_email']); ?><br>
-                                <?php echo htmlspecialchars($order['customer_telephone']); ?>
+                                <?php echo htmlspecialchars($order['email']); ?><br>
+                                <?php echo htmlspecialchars($order['telephone']); ?>
                             </td>
                         </tr>
                     </table>

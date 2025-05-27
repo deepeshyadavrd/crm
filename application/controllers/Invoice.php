@@ -79,13 +79,13 @@ class Invoice extends CI_Controller {
         // Load email config (if not autoloaded)
         // $this->load->config('email'); // If you put config in a separate file
 
-        $this->email->from('your_company_email@example.com', 'Your Company Name'); // Replace with your actual email
-        $this->email->to($order['customer_email']);
-        $this->email->subject('Your Invoice for Order #' . $order_id . ' from Your Company Name');
-        $this->email->message('Dear ' . htmlspecialchars($order['customer_firstname']) . ',<br><br>' .
+        $this->email->from('raoshsbh6@gmail.com', 'Deepesh'); // Replace with your actual email
+        $this->email->to($order['email']);
+        $this->email->subject('Your Invoice for Order #' . $order_id . ' from Urbanwood');
+        $this->email->message('Dear ' . htmlspecialchars($order['firstname']) . ',<br><br>' .
                                'Thank you for your recent order (Order #' . $order_id . ').<br>' .
                                'Please find your invoice attached to this email.<br><br>' .
-                               'Regards,<br>Your Company Name');
+                               'Regards,<br>Urbanwood');
 
         // Attach the generated PDF
         $filename = 'invoice_' . $order_id . '.pdf';
