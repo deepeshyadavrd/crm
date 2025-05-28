@@ -24,16 +24,11 @@ class Orders extends CI_Controller {
         $data['title'] = 'Order List';
         $data['orders'] = $this->Order_model->get_all_orders(); // Fetch all orders
 
-        // Load your dashboard layout (or a simple header/footer structure)
-        // If you have a full layout with sidebar:
-        // $this->load->view('dashboard_header', $data); // Assuming dashboard_header handles the sidebar and top part
-        // $this->load->view('order_list_view', $data);
-        // $this->load->view('dashboard_footer'); // Assuming dashboard_footer closes the layout
+        // Tell the layout which content view to load
+        $data['content_view'] = 'order_list_view'; // This is the new filename for your order list content
 
-        // For simplicity, directly load the view with a simple HTML structure
-        // This will embed the whole page, including basic CSS.
-        // For production, consider using a proper templating system or modular views.
-        $this->load->view('order_list_view', $data);
+        // Load the main layout view
+        $this->load->view('layouts/main_layout', $data);
     }
 
     // --- (Your existing methods for creating orders, etc. would be here) ---
@@ -50,6 +45,9 @@ class Orders extends CI_Controller {
 
         $data['order'] = $order;
         $data['title'] = 'Order Details #' . $order_id;
-        $this->load->view('order_details_view', $data); // You'd create an order_details_view for this
+        // Assuming you'll create a dedicated order_details_content.php
+        $data['content_view'] = 'order_details_content'; // You'll create this file
+
+        $this->load->view('layouts/main_layout', $data);
     }
 }

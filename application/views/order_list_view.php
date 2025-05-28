@@ -1,12 +1,12 @@
 
 
 <div class="main-content">
-    <div class="header">
+    <!-- <div class="header">
         <h1><?php echo $title; ?></h1>
         <div class="user-info">
             Welcome, <strong><?php echo htmlspecialchars($this->session->userdata('username')); ?></strong>!
         </div>
-    </div>
+    </div> -->
     <div class="page-body">
         <?php if ($this->session->flashdata('success')): ?>
             <div class="flash-message success"><?php echo $this->session->flashdata('success'); ?></div>
@@ -14,7 +14,7 @@
         <?php if ($this->session->flashdata('error')): ?>
             <div class="flash-message error"><?php echo $this->session->flashdata('error'); ?></div>
         <?php endif; ?>
-        <h2>All Orders</h2>
+        <!-- <h2>All Orders</h2> -->
         <p><a href="<?php echo site_url('orders/create_order_form'); ?>" class="btn btn-primary">Create New Order</a></p>
         <?php if (!empty($orders)): ?>
         <table>
