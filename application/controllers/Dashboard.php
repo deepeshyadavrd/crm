@@ -17,6 +17,10 @@ class Dashboard extends CI_Controller {
     public function index() {
         $data['title'] = 'CRM Dashboard';
         $data['username'] = $this->session->userdata('username');
-        $this->load->view('dashboard_view', $data); // Create this view
+        
+        $data['content_view'] = 'dashboard_view'; // This is the new filename for your dashboard content
+
+        // Load the main layout view
+        $this->load->view('layouts/main_layout', $data);
     }
 }

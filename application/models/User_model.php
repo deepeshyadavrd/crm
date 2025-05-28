@@ -40,7 +40,7 @@ class User_model extends CI_Model {
     public function get_all_opencart_users() {
         // You might want to filter sensitive columns like 'password' and 'salt' in a real CRM
         $this->db->select('user_id, username, user_group_id, firstname, lastname, email, status, date_added');
-        $this->db->from('user'); // Corresponds to oc_user
+        $this->db->from('oc_user'); // Corresponds to oc_user
         $this->db->order_by('username', 'ASC');
         $query = $this->db->get();
 
