@@ -8,7 +8,7 @@ class Orders extends CI_Controller {
         $this->load->library('session');
         $this->load->helper('url'); // Make sure URL helper is loaded for site_url()
         $this->load->model('Order_model'); // Load your Order_model
-
+        $this->load->library('pagination'); // Load the Pagination Library
         // --- Access Control (THE PROTECTION) ---
         // Ensure only logged-in users can access this page
         if (!$this->session->userdata('is_logged_in')) {
@@ -22,7 +22,41 @@ class Orders extends CI_Controller {
      */
     public function index() {
         $data['title'] = 'Order List';
-        $data['orders'] = $this->Order_model->get_all_orders(); // Fetch all orders
+
+        $search_query = $this->input->get('search_query', TRUE);
+        $data['search_query'] = $search_query;
+
+        // --- Pagination Configuration ---
+        $config['base_url'] = site_url('orders/index'); // Base URL for pagination links
+        $config['total_rows'] = $this->Order_model->count_all_orders($search_query); // Total records (with search filter)
+        $config['per_page'] = 20; // Number of orders per page
+        $config['uri_segment'] = 3; // The URI segment that contains the page number (e.g., /orders/index/20 where 20 is offset)
+        $config['page_query_string'] = TRUE; // Use query strings for pagination (e.g., ?per_page=20)
+        $config['query_string_segment'] = 'offset'; // The query string segment for the offset
+
+        // Styling for pagination links (optional, but makes them look nicer)
+        $config['full_tag_open'] = '<div class="pagination">';
+        $config['full_tag_close'] = '</div>';
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['next_link'] = 'Next &rarr;';
+        $config['prev_link'] = '&larr; Previous';
+        $config['cur_tag_open'] = '<span class="current-page">';
+        $config['cur_tag_close'] = '</span>';
+        $config['num_tag_open'] = '<span class="page-link">';
+        $config['num_tag_close'] = '</span>';
+        $config['attributes'] = array('class' => 'page-link'); // Apply class to all links
+
+        // For query string pagination, you need to handle the 'offset'
+        // from $_GET or $this->uri->segment() as per your config['uri_segment'] choice.
+        // If 'page_query_string' is TRUE, CI automatically looks for 'offset' or whatever 'query_string_segment' is.
+        $offset = $this->input->get('offset'); // Get the offset from the URL query string
+
+        $this->pagination->initialize($config); // Initialize the pagination library
+
+
+        $data['orders'] = $this->Order_model->get_all_orders($config['per_page'], $offset, $search_query); // Fetch all orders
+        $data['pagination_links'] = $this->pagination->create_links(); // Generate pagination links
 
         // Tell the layout which content view to load
         $data['content_view'] = 'order_list_view'; // This is the new filename for your order list content

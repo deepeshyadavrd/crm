@@ -205,6 +205,37 @@
         .search-form button:hover {
             background-color: #0056b3;
         }
+        /* Pagination Styling */
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .pagination span {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 4px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #007bff;
+            background-color: #f8f9fa;
+        }
+        .pagination span.current-page {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            font-weight: bold;
+        }
+        .pagination span.page-link:hover {
+            background-color: #e2e6ea;
+        }
+        .pagination a.page-link {
+            color: #007bff; /* Ensure anchor tags also have the right color */
+        }
+        .pagination a.page-link:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>

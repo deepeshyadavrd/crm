@@ -1,5 +1,11 @@
 
-
+<form action="<?php echo site_url('orders'); ?>" method="get" class="search-form">
+                <input type="text" name="search_query" placeholder="Search by Order ID, Invoice No., Customer, Status..." value="<?php echo htmlspecialchars($search_query); ?>">
+                <button type="submit">Search</button>
+                <?php if (!empty($search_query)): ?>
+                    <a href="<?php echo site_url('orders'); ?>" class="btn btn-danger">Clear Search</a>
+                <?php endif; ?>
+            </form>
 <div class="main-content">
     <!-- <div class="header">
         <h1><?php echo $title; ?></h1>
@@ -47,8 +53,9 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <?php echo $pagination_links; ?>
         <?php else: ?>
-            <p>No orders found.</p>
+            <p>No orders found <?php if (!empty($search_query)) echo "matching '<b>" . htmlspecialchars($search_query) . "</b>'"; ?>.</p>
         <?php endif; ?>
     </div>
 </div>

@@ -34,7 +34,9 @@ class Invoice extends CI_Controller {
         $data['title'] = 'Invoice for Order #' . $order_id;
 
         // Load the invoice template view
-        $this->load->view('invoice_template_view', $data);
+        $data['content_view'] = 'invoice_templete_view'; // You'd create this
+
+        $this->load->view('layouts/main_layout', $data);
     }
 
     /**
