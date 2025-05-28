@@ -21,7 +21,6 @@ class Auth extends CI_Controller {
     }
 
     public function process_login() {
-        echo "Processing login...";
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         var_dump($this->input->post('username'), $this->input->post('password'));
