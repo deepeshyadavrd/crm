@@ -231,7 +231,7 @@
             background-color: #e2e6ea;
         }
         .pagination a.page-link {
-            color: #007bff; /* Ensure anchor tags also have the right color */
+            color: #007bff; 
         }
         .pagination a.page-link:hover {
             color: #0056b3;
