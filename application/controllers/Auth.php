@@ -23,7 +23,7 @@ class Auth extends CI_Controller {
     public function process_login() {
         $username = $this->input->post('username');
         $password = $this->input->post('password');
-        var_dump($this->input->post('username'), $this->input->post('password'));
+        // var_dump($this->input->post('username'), $this->input->post('password'));
 
         $user = $this->User_model->verify_opencart_admin_user($username, $password);
 
