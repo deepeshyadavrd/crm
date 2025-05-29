@@ -27,7 +27,4 @@ class Users extends CI_Controller {
         // Load the view to display the user list
         $this->load->view('users_list_view', $data);
     }
-
-    // You can add more methods here for user details, edit, delete, etc.
-    // Each of them would also be protected by the __construct() login check.
 }

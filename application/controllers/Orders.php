@@ -65,7 +65,6 @@ class Orders extends CI_Controller {
         $this->load->view('layouts/main_layout', $data);
     }
 
-    // --- (Your existing methods for creating orders, etc. would be here) ---
 
     // Example of a view_order function (if you have one, or you can create it)
     // This function would display detailed info for a single order
