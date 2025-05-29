@@ -54,13 +54,7 @@ class Order_model extends CI_Model {
 
         return $this->db->count_all_results();
     }
-    /**
-     * Fetches comprehensive details for a specific order, including customer and product information.
-     * Assumes OpenCart 3 database structure.
-     *
-     * @param int $order_id The ID of the order to fetch.
-     * @return array|false Returns an array of order details on success, false if order not found.
-     */
+
     public function get_full_order_details($order_id) {
         // Fetch main order details and join with customer and order_status
         $this->db->select('o.*, c.firstname AS customer_firstname, c.lastname AS customer_lastname, c.email AS customer_email, ' .
