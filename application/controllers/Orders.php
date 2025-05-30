@@ -9,6 +9,8 @@ class Orders extends CI_Controller {
         $this->load->helper('url'); // Make sure URL helper is loaded for site_url()
         $this->load->model('Order_model'); // Load your Order_model
         $this->load->library('pagination'); // Load the Pagination Library
+        $this->load->helper('form');
+        $this->load->library('form_validation');
         // --- Access Control (THE PROTECTION) ---
         // Ensure only logged-in users can access this page
         if (!$this->session->userdata('is_logged_in')) {
@@ -83,4 +85,5 @@ class Orders extends CI_Controller {
 
         $this->load->view('layouts/main_layout', $data);
     }
+
 }
