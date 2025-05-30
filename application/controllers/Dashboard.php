@@ -12,6 +12,7 @@ class Dashboard extends CI_Controller {
         if (!$this->session->userdata('is_logged_in')) {
             redirect('auth/login');
         }
+        
     }
 
     public function index() {
