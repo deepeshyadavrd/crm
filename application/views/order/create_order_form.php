@@ -70,8 +70,8 @@
             <label for="payment_method">Payment Method <span style="color: red;">*</span></label>
             <select id="payment_method" name="payment_method" required>
                 <option value="">-- Select Payment Method --</option>
-                <option value="Cash on Delivery" <?php echo (set_value('payment_method') == 'Cash on Delivery') ? 'selected' : ''; ?>>Cash on Delivery</option>
-                <option value="Bank Transfer" <?php echo (set_value('payment_method') == 'Bank Transfer') ? 'selected' : ''; ?>>Bank Transfer</option>
+                <option value="ccavenue" <?php echo (set_value('payment_method') == 'ccavenue') ? 'selected' : ''; ?>>ccavenue</option>
+                <!-- <option value="Bank Transfer" <?php echo (set_value('payment_method') == 'Bank Transfer') ? 'selected' : ''; ?>>Bank Transfer</option> -->
                 </select>
         </div>
         <input type="hidden" id="payment_code" name="payment_code" value="<?php echo set_value('payment_code'); ?>">
@@ -347,7 +347,7 @@
             }
 
             $.ajax({
-                url: '<?php echo site_url("order/get_zones_json"); ?>', // CI endpoint for zones
+                url: '<?php echo site_url("orders/get_zones_json"); ?>', // CI endpoint for zones
                 type: 'GET',
                 data: { country_id: countryId },
                 dataType: 'json',

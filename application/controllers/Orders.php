@@ -94,13 +94,13 @@ class Orders extends CI_Controller {
     }
     public function process() {
         // This method handles form submission
-        
+
         // Set validation rules
         $this->form_validation->set_rules('firstname', 'First Name', 'required|trim|max_length[32]');
         $this->form_validation->set_rules('lastname', 'Last Name', 'required|trim|max_length[32]');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|max_length[96]');
         $this->form_validation->set_rules('telephone', 'Telephone', 'required|trim|max_length[32]');
-        $this->form_validation->set_rules('fax', 'Fax', 'trim|max_length[32]');
+
 
         $this->form_validation->set_rules('payment_firstname', 'Payment First Name', 'required|trim|max_length[32]');
         $this->form_validation->set_rules('payment_lastname', 'Payment Last Name', 'required|trim|max_length[32]');
@@ -157,6 +157,19 @@ class Orders extends CI_Controller {
         } else {
             // Validation passed, process the order
             $order_data = $this->input->post(); // Get all POST data
+
+            $country_id = isset($order_data['country']) ? (int)$order_data['country'] : 0;
+            $zone_id = isset($order_data['zone']) ? (int)$order_data['zone'] : 0;
+
+
+            // Fetch country name and zone name based on the IDs from the database
+            $country_name = $this->Order_model->get_country_name_by_id($country_id);
+            $zone_name = $this->Order_model->get_zone_name_by_id($zone_id);
+
+            // Now, add the fetched names to the $order_data array
+            // This is how you "push" new data into your processing array.
+            $order_data['country_name'] = $country_name;
+            $order_data['zone_name'] = ($zone_id > 0) ? $zone_name : NULL;
 
             try {
                 $order_id = $this->Order_model->create_opencart_order($order_data);

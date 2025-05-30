@@ -327,4 +327,41 @@ class Order_model extends CI_Model {
         $query = $this->db->get();
         return $query->result(); // Returns an array of objects
     }
+    public function get_zones_by_country($country_id) {
+        $this->db->select('zone_id, name');
+        $this->db->from('oc_zone');
+        $this->db->where('country_id', $country_id);
+        $this->db->where('status', 1); // Assuming 1 means active in OpenCart
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get();
+        return $query->result(); // Returns an array of objects
+    }
+
+    public function get_country_name_by_id($country_id) {
+        $this->db->select('name');
+        $this->db->from('oc_country');
+        $this->db->where('country_id', $country_id);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->row()->name;
+        }
+        return '';
+    }
+
+    /**
+     * Get zone name by ID.
+     *
+     * @param int $zone_id The ID of the zone.
+     * @return string The zone name, or empty string if not found.
+     */
+    public function get_zone_name_by_id($zone_id) {
+        $this->db->select('name');
+        $this->db->from('oc_zone');
+        $this->db->where('zone_id', $zone_id);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->row()->name;
+        }
+        return '';
+    }
 }
