@@ -159,7 +159,7 @@ class Orders extends CI_Controller {
             $order_data = $this->input->post(); // Get all POST data
 
             try {
-                $order_id = $this->opencart_model->create_opencart_order($order_data);
+                $order_id = $this->Order_model->create_opencart_order($order_data);
 
                 $data['status'] = 'success';
                 $data['order_id'] = $order_id;

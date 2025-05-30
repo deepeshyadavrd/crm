@@ -5,7 +5,7 @@
         <p class="error">Error creating order: <?php echo htmlspecialchars($message); ?></p>
     <?php endif; ?>
     <?php echo validation_errors('<ul class="validation-errors"><li>', '</li></ul>'); ?>
-    <?php echo form_open('order/process'); ?>
+    <?php echo form_open('orders/process'); ?>
         <h2>Customer Details</h2>
         <div class="form-group">
             <label for="firstname">First Name <span style="color: red;">*</span></label>

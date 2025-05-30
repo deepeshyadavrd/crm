@@ -21,7 +21,7 @@
             <div class="flash-message error"><?php echo $this->session->flashdata('error'); ?></div>
         <?php endif; ?>
         <!-- <h2>All Orders</h2> -->
-        <p><a href="<?php echo site_url('orders/create_order_form'); ?>" class="btn btn-primary">Create New Order</a></p>
+        <p><a href="<?php echo site_url('orders/create'); ?>" class="btn btn-primary">Create New Order</a></p>
         <?php if (!empty($orders)): ?>
         <table>
             <thead>
