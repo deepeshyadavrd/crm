@@ -173,5 +173,35 @@ class Orders extends CI_Controller {
             }
         }
     }
+    public function get_countries_json() {
+        // Ensure this is an AJAX request or protect it as needed
+        if (!$this->input->is_ajax_request()) {
+            show_404(); // Or return an error
+        }
+
+        $countries = $this->Order_model->get_countries();
+        $this->output
+             ->set_content_type('application/json')
+             ->set_output(json_encode($countries));
+    }
+    public function get_zones_json() { // Renamed for consistency
+        // Ensure this is an AJAX request or protect it as needed
+        if (!$this->input->is_ajax_request()) {
+            show_404(); // Or return an error
+        }
+
+        $country_id = $this->input->get('country_id', TRUE); // TRUE for XSS cleaning
+
+        if ($country_id) {
+            $zones = $this->Order_model->get_zones_by_country($country_id);
+            $this->output
+                 ->set_content_type('application/json')
+                 ->set_output(json_encode($zones));
+        } else {
+            $this->output
+                 ->set_content_type('application/json')
+                 ->set_output(json_encode([])); // Return empty array if no country_id
+        }
+    }
 
 }

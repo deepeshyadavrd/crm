@@ -319,4 +319,12 @@ class Order_model extends CI_Model {
             throw new Exception("Failed to create order: " . $e->getMessage());
         }
     }
+    public function get_countries() {
+        $this->db->select('country_id, name');
+        $this->db->from('oc_country');
+        $this->db->where('status', 1); // Assuming 1 means active in OpenCart
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get();
+        return $query->result(); // Returns an array of objects
+    }
 }

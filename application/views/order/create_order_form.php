@@ -56,14 +56,14 @@
             <label for="payment_country_id">Country <span style="color: red;">*</span></label>
             <select id="payment_country_id" name="payment_country_id" required>
                 <option value="">-- Select Country --</option>
-                <option value="99" <?php echo (set_value('payment_country_id') == 99) ? 'selected' : ''; ?>>India</option>
+                <!-- <option value="99" <?php echo (set_value('payment_country_id') == 99) ? 'selected' : ''; ?>>India</option> -->
                 </select>
         </div>
         <div class="form-group">
             <label for="payment_zone_id">Region / State <span style="color: red;">*</span></label>
             <select id="payment_zone_id" name="payment_zone_id" required>
                 <option value="">-- Select Region / State --</option>
-                <option value="1485" <?php echo (set_value('payment_zone_id') == 1485) ? 'selected' : ''; ?>>Haryana</option>
+                <!-- <option value="1485" <?php echo (set_value('payment_zone_id') == 1485) ? 'selected' : ''; ?>>Haryana</option> -->
                 </select>
         </div>
         <div class="form-group">
@@ -191,6 +191,7 @@
         <button type="submit">Create Order in OpenCart</button>
     <?php echo form_close(); ?>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -284,5 +285,101 @@
         }
         // Initial call to set button visibility
         updateRemoveButtons();
+    });
+
+    $(document).ready(function() {
+        const countryDropdown = $('#payment_country_id');
+        const zoneDropdown = $('#payment_zone_id');
+
+        /**
+         * Fetches countries from the server, populates the country dropdown,
+         * and automatically selects 'India'.
+         */
+        function loadCountriesAndSelectIndia() {
+            countryDropdown.empty(); // Clear existing options
+            countryDropdown.append($('<option></option>').val('').text('-- Loading Countries --'));
+
+            $.ajax({
+                url: '<?php echo site_url("orders/get_countries_json"); ?>', // CI endpoint for countries
+                type: 'GET',
+                dataType: 'json',
+                success: function(countries) {
+                    countryDropdown.empty(); // Clear loading message
+                    countryDropdown.append($('<option></option>').val('').text('-- Select Country --'));
+
+                    let indiaCountryId = null;
+                    $.each(countries, function(index, country) {
+                        const option = $('<option></option>').val(country.country_id).text(country.name);
+                        countryDropdown.append(option);
+                        if (country.name.toLowerCase() === 'india') {
+                            indiaCountryId = country.country_id;
+                        }
+                    });
+
+                    // Automatically select India if found
+                    if (indiaCountryId !== null) {
+                        countryDropdown.val(indiaCountryId);
+                    }
+
+                    // Trigger change event to load zones for the selected country (India or default)
+                    countryDropdown.trigger('change');
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error (Countries): " + status + " - " + error);
+                    console.log(xhr.responseText);
+                    countryDropdown.empty();
+                    countryDropdown.append($('<option></option>').val('').text('-- Error Loading Countries --'));
+                    alert("Error loading countries. Please try again.");
+                }
+            });
+        }
+
+        /**
+         * Fetches zones for a given country ID and populates the zone dropdown.
+         * @param {string} countryId The ID of the selected country.
+         */
+        function loadZones(countryId) {
+            zoneDropdown.empty(); // Clear existing options
+            zoneDropdown.append($('<option></option>').val('').text('-- Select State/Zone --')); // Add default option
+
+            if (!countryId) {
+                return; // No country selected, no zones to load
+            }
+
+            $.ajax({
+                url: '<?php echo site_url("order/get_zones_json"); ?>', // CI endpoint for zones
+                type: 'GET',
+                data: { country_id: countryId },
+                dataType: 'json',
+                success: function(zones) {
+                    $.each(zones, function(index, zone) {
+                        zoneDropdown.append($('<option></option>').val(zone.zone_id).text(zone.name));
+                    });
+
+                    // If there was a previously selected zone (e.g., after validation error),
+                    // try to re-select it. This relies on CodeIgniter's set_value() being present.
+                    const previousZoneValue = '<?php echo set_value('zone'); ?>';
+                    if (previousZoneValue) {
+                        zoneDropdown.val(previousZoneValue);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error (Zones): " + status + " - " + error);
+                    console.log(xhr.responseText);
+                    zoneDropdown.empty();
+                    zoneDropdown.append($('<option></option>').val('').text('-- Error Loading Zones --'));
+                    alert("Error fetching zones. Please try again.");
+                }
+            });
+        }
+
+        // Event listener for country dropdown change
+        countryDropdown.on('change', function() {
+            const selectedCountryId = $(this).val();
+            loadZones(selectedCountryId);
+        });
+
+        // Initial call to load countries and select India when the form loads
+        loadCountriesAndSelectIndia();
     });
 </script>
