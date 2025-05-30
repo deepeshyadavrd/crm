@@ -86,4 +86,92 @@ class Orders extends CI_Controller {
         $this->load->view('layouts/main_layout', $data);
     }
 
+    public function create() {
+        // This method displays the form
+        $data = []; // Data to pass to the view (e.g., status messages, validation errors)
+        $data['content_view'] =  'order/create_order_form';
+        $this->load->view('layouts/main_layout', $data);
+    }
+    public function process() {
+        // This method handles form submission
+        
+        // Set validation rules
+        $this->form_validation->set_rules('firstname', 'First Name', 'required|trim|max_length[32]');
+        $this->form_validation->set_rules('lastname', 'Last Name', 'required|trim|max_length[32]');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|max_length[96]');
+        $this->form_validation->set_rules('telephone', 'Telephone', 'required|trim|max_length[32]');
+        $this->form_validation->set_rules('fax', 'Fax', 'trim|max_length[32]');
+
+        $this->form_validation->set_rules('payment_firstname', 'Payment First Name', 'required|trim|max_length[32]');
+        $this->form_validation->set_rules('payment_lastname', 'Payment Last Name', 'required|trim|max_length[32]');
+        $this->form_validation->set_rules('payment_company', 'Payment Company', 'trim|max_length[64]');
+        $this->form_validation->set_rules('payment_address_1', 'Payment Address 1', 'required|trim|max_length[128]');
+        $this->form_validation->set_rules('payment_address_2', 'Payment Address 2', 'trim|max_length[128]');
+        $this->form_validation->set_rules('payment_city', 'Payment City', 'required|trim|max_length[128]');
+        $this->form_validation->set_rules('payment_postcode', 'Payment Postcode', 'required|trim|max_length[10]');
+        $this->form_validation->set_rules('payment_country_id', 'Payment Country', 'required|integer');
+        $this->form_validation->set_rules('payment_zone_id', 'Payment Region/State', 'required|integer');
+        $this->form_validation->set_rules('payment_method', 'Payment Method', 'required|trim|max_length[128]');
+        $this->form_validation->set_rules('payment_code', 'Payment Code', 'trim|max_length[32]'); // Hidden, set by JS
+
+        // Conditional validation for shipping address
+        if (!$this->input->post('shipping_same_as_payment')) {
+            $this->form_validation->set_rules('shipping_firstname', 'Shipping First Name', 'required|trim|max_length[32]');
+            $this->form_validation->set_rules('shipping_lastname', 'Shipping Last Name', 'required|trim|max_length[32]');
+            $this->form_validation->set_rules('shipping_company', 'Shipping Company', 'trim|max_length[64]');
+            $this->form_validation->set_rules('shipping_address_1', 'Shipping Address 1', 'required|trim|max_length[128]');
+            $this->form_validation->set_rules('shipping_address_2', 'Shipping Address 2', 'trim|max_length[128]');
+            $this->form_validation->set_rules('shipping_city', 'Shipping City', 'required|trim|max_length[128]');
+            $this->form_validation->set_rules('shipping_postcode', 'Shipping Postcode', 'required|trim|max_length[10]');
+            $this->form_validation->set_rules('shipping_country_id', 'Shipping Country', 'required|integer');
+            $this->form_validation->set_rules('shipping_zone_id', 'Shipping Region/State', 'required|integer');
+            $this->form_validation->set_rules('shipping_method', 'Shipping Method', 'required|trim|max_length[128]');
+            $this->form_validation->set_rules('shipping_code', 'Shipping Code', 'trim|max_length[32]'); // Hidden, set by JS
+        }
+
+        // Validate products
+        $products = $this->input->post('products');
+        if (empty($products)) {
+            $this->form_validation->set_rules('products', 'Products', 'required', ['required' => 'At least one product is required.']);
+        } else {
+            foreach ($products as $key => $product) {
+                $this->form_validation->set_rules("products[$key][name]", "Product #".($key+1)." Name", 'required|trim|max_length[255]');
+                $this->form_validation->set_rules("products[$key][product_id]", "Product #".($key+1)." ID", 'integer'); // Can be 0
+                $this->form_validation->set_rules("products[$key][model]", "Product #".($key+1)." Model", 'trim|max_length[64]');
+                $this->form_validation->set_rules("products[$key][quantity]", "Product #".($key+1)." Quantity", 'required|integer|greater_than[0]');
+                $this->form_validation->set_rules("products[$key][price]", "Product #".($key+1)." Unit Price", 'required|numeric|greater_than_equal_to[0]');
+                $this->form_validation->set_rules("products[$key][tax_per_unit]", "Product #".($key+1)." Tax per Unit", 'numeric|greater_than_equal_to[0]');
+            }
+        }
+
+        $this->form_validation->set_rules('order_status_id', 'Order Status', 'required|integer');
+        $this->form_validation->set_rules('comment', 'Internal Comment', 'trim');
+        $this->form_validation->set_rules('total_override', 'Grand Total Override', 'numeric|greater_than_equal_to[0]');
+
+
+        if ($this->form_validation->run() == FALSE) {
+            // Validation failed, reload the form with errors and previously entered data
+            $data['status'] = 'error';
+            $data['message'] = 'Please correct the errors in the form.';
+            $this->load->view('order/create_order_form', $data);
+        } else {
+            // Validation passed, process the order
+            $order_data = $this->input->post(); // Get all POST data
+
+            try {
+                $order_id = $this->opencart_model->create_opencart_order($order_data);
+
+                $data['status'] = 'success';
+                $data['order_id'] = $order_id;
+                $this->load->view('order/create_order_form', $data);
+            } catch (Exception $e) {
+                $data['status'] = 'error';
+                $data['message'] = $e->getMessage();
+                // If you want to show the form again with previous data after an error,
+                // you'll need to set the `set_value` in the view manually.
+                $this->load->view('order/create_order_form', $data);
+            }
+        }
+    }
+
 }
