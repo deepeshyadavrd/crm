@@ -88,7 +88,7 @@ class Orders extends CI_Controller {
 
     public function create() {
         // This method displays the form
-        $data = []; // Data to pass to the view (e.g., status messages, validation errors)
+        $data['title'] = 'Create New Order';
         $data['content_view'] =  'order/create_order_form';
         $this->load->view('layouts/main_layout', $data);
     }

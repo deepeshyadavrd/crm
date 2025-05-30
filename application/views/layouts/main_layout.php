@@ -236,6 +236,59 @@
         .pagination a.page-link:hover {
             color: #0056b3;
         }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .checkbox-group { margin-top: 10px; }
+        .product-item { border: 1px dashed #ccc; padding: 15px; margin-bottom: 15px; background-color: #f9f9f9; border-radius: 5px; position: relative; }
+        .product-item .remove-product {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .add-product {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        button[type="submit"]:hover { background-color: #0056b3; }
+        .error { color: red; margin-bottom: 10px; }
+        .success { color: green; margin-bottom: 10px; }
+        .validation-errors { color: red; margin-top: 10px; list-style-type: none; padding-left: 0; }
     </style>
 </head>
 <body>
