@@ -158,8 +158,8 @@ class Orders extends CI_Controller {
             // Validation passed, process the order
             $order_data = $this->input->post(); // Get all POST data
 
-            $country_id = isset($order_data['country']) ? (int)$order_data['country'] : 0;
-            $zone_id = isset($order_data['zone']) ? (int)$order_data['zone'] : 0;
+            $country_id = isset($order_data['payment_country_id']) ? (int)$order_data['payment_country_id'] : 0;
+            $zone_id = isset($order_data['payment_zone_id']) ? (int)$order_data['payment_zone_id'] : 0;
 
 
             // Fetch country name and zone name based on the IDs from the database
@@ -168,21 +168,21 @@ class Orders extends CI_Controller {
 
             // Now, add the fetched names to the $order_data array
             // This is how you "push" new data into your processing array.
-            $order_data['country_name'] = $country_name;
-            $order_data['zone_name'] = ($zone_id > 0) ? $zone_name : NULL;
+            $order_data['payment_country'] = $country_name;
+            $order_data['payment_zone'] = ($zone_id > 0) ? $zone_name : NULL;
 
             try {
                 $order_id = $this->Order_model->create_opencart_order($order_data);
 
                 $data['status'] = 'success';
                 $data['order_id'] = $order_id;
-                $this->load->view('order/create_order_form', $data);
+                redirect('orders');
             } catch (Exception $e) {
                 $data['status'] = 'error';
                 $data['message'] = $e->getMessage();
                 // If you want to show the form again with previous data after an error,
                 // you'll need to set the `set_value` in the view manually.
-                $this->load->view('order/create_order_form', $data);
+                redirect('orders/create');
             }
         }
     }

@@ -129,7 +129,9 @@ class Order_model extends CI_Model {
                 'payment_address_2'     => $order_data['payment_address_2'] ?? '',
                 'payment_city'          => $order_data['payment_city'],
                 'payment_postcode'      => $order_data['payment_postcode'],
+                'payment_country'       => $order_data['payment_country'],
                 'payment_country_id'    => $order_data['payment_country_id'],
+                'payment_zone'          => $order_data['payment_zone'],
                 'payment_zone_id'       => $order_data['payment_zone_id'],
                 'payment_method'        => $order_data['payment_method'],
                 'payment_code'          => $order_data['payment_code'],
@@ -298,11 +300,20 @@ class Order_model extends CI_Model {
             }
 
             // 4. Insert into oc_order_history
+            $crm_username = $this->session->userdata('username'); // Assuming 'username' is stored in session
+            if (empty($crm_username)) {
+                $crm_username = 'Unknown CRM User'; // Fallback if username not found in session
+            }
+
+            $history_comment = 'Order registered via CRM by ' . $crm_username;
+            if (!empty($order_data['comment'])) {
+                $history_comment .= '. Internal Comment: ' . $order_data['comment'] . ' - '. $crm_username;
+            }
             $this->db->insert('oc_order_history', [
                 'order_id'        => $order_id,
                 'order_status_id' => $data_oc_order['order_status_id'],
                 'notify'          => 0, // Don't notify customer from CRM creation
-                'comment'         => 'Order registered via CRM',
+                'comment'         => $history_comment,
                 'date_added'      => date('Y-m-d H:i:s')
             ]);
 

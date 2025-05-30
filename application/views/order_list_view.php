@@ -1,18 +1,12 @@
-
-<form action="<?php echo site_url('orders'); ?>" method="get" class="search-form">
-                <input type="text" name="search_query" placeholder="Search by Order ID, Invoice No., Customer, Status..." value="<?php echo htmlspecialchars($search_query); ?>">
-                <button type="submit">Search</button>
-                <?php if (!empty($search_query)): ?>
-                    <a href="<?php echo site_url('orders'); ?>" class="btn btn-danger">Clear Search</a>
-                <?php endif; ?>
-            </form>
 <div class="main-content">
-    <!-- <div class="header">
-        <h1><?php echo $title; ?></h1>
-        <div class="user-info">
-            Welcome, <strong><?php echo htmlspecialchars($this->session->userdata('username')); ?></strong>!
-        </div>
-    </div> -->
+
+    <form action="<?php echo site_url('orders'); ?>" method="get" class="search-form">
+        <input type="text" name="search_query" placeholder="Search by Order ID, Invoice No., Customer, Status..." value="<?php echo htmlspecialchars($search_query); ?>">
+        <button type="submit">Search</button>
+        <?php if (!empty($search_query)): ?>
+            <a href="<?php echo site_url('orders'); ?>" class="btn btn-danger">Clear Search</a>
+        <?php endif; ?>
+    </form>
     <div class="page-body">
         <?php if ($this->session->flashdata('success')): ?>
             <div class="flash-message success"><?php echo $this->session->flashdata('success'); ?></div>
