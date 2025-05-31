@@ -67,7 +67,6 @@ class Orders extends CI_Controller {
         $this->load->view('layouts/main_layout', $data);
     }
 
-
     // Example of a view_order function (if you have one, or you can create it)
     // This function would display detailed info for a single order
     public function view_order($order_id) {
@@ -100,7 +99,6 @@ class Orders extends CI_Controller {
         $this->form_validation->set_rules('lastname', 'Last Name', 'required|trim|max_length[32]');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|max_length[96]');
         $this->form_validation->set_rules('telephone', 'Telephone', 'required|trim|max_length[32]');
-
 
         $this->form_validation->set_rules('payment_firstname', 'Payment First Name', 'required|trim|max_length[32]');
         $this->form_validation->set_rules('payment_lastname', 'Payment Last Name', 'required|trim|max_length[32]');
