@@ -46,5 +46,4 @@ class User_model extends CI_Model {
         }
         return []; // Return an empty array if no users found
     }
-
 }
