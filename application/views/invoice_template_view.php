@@ -52,7 +52,7 @@
                             <td>
                                 Urbanwood Furnitures Pvt Ltd<br>
                                 Y136, Udyog Vihar Phase 1<br>
-                                Secto 20, Gurgaon, Haryana<br>
+                                Sector 20, Gurgaon, Haryana<br>
                                 Phone: <?php echo htmlspecialchars('9311662218'); ?><br>
                                 Email: <?php echo htmlspecialchars('support@urbanwood.in'); ?>
                             </td>
