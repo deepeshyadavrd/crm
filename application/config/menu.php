@@ -14,15 +14,15 @@ $config['app_menu'] = array(
         'icon' => 'fa fa-tachometer-alt', // Optional: for icons
         'allowed_groups' => array('admin', 'editor', 'customer') // Visible to these groups
     ),
+    // array(
+    //     'url' => 'users',
+    //     'text' => 'User Management',
+    //     'icon' => 'fa fa-users',
+    //     'allowed_groups' => array('admin') // Only visible to admin
+    // ),
     array(
-        'url' => 'users',
-        'text' => 'User Management',
-        'icon' => 'fa fa-users',
-        'allowed_groups' => array('admin') // Only visible to admin
-    ),
-    array(
-        'url' => 'products',
-        'text' => 'Products',
+        'url' => 'leads',
+        'text' => 'Leads',
         'icon' => 'fa fa-box',
         'allowed_groups' => array('admin', 'editor') // Visible to admin and editor
     ),
