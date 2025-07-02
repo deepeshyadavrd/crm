@@ -3,9 +3,9 @@
 
     <h4 class="mt-3">Customer Information</h4>
     <table class="table table-bordered">
-        <tr><th>Name</th><td><?= htmlspecialchars($order['customer_firstname'].' '.$order['customer_lastname']) ?></td></tr>
-        <tr><th>Email</th><td><?= htmlspecialchars($order['customer_email']) ?></td></tr>
-        <tr><th>Telephone</th><td><?= htmlspecialchars($order['customer_telephone']) ?></td></tr>
+        <tr><th>Name</th><td><?= htmlspecialchars($order['firstname'].' '.$order['lastname']) ?></td></tr>
+        <tr><th>Email</th><td><?= htmlspecialchars($order['email']) ?></td></tr>
+        <tr><th>Telephone</th><td><?= htmlspecialchars($order['telephone']) ?></td></tr>
         <tr><th>Status</th><td><?= htmlspecialchars($order['order_status_name']) ?></td></tr>
         <tr><th>Date Added</th><td><?= htmlspecialchars($order['date_added']) ?></td></tr>
     </table>
