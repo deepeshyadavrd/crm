@@ -214,5 +214,62 @@ class Orders extends CI_Controller {
                  ->set_output(json_encode([])); // Return empty array if no country_id
         }
     }
+    public function update_status_and_upload($order_id){
+        $this->load->library('upload');
+
+        $order_status_id = $this->input->post('order_status_id');
+        $comment = $this->input->post('comment');
+
+        // Validate status
+        if (!$order_status_id) {
+            $this->session->set_flashdata('error', 'Please select a status.');
+            redirect('orders/view_order/' . $order_id);
+        }
+
+        // Insert into oc_order_history
+        $this->db->insert('oc_order_history', [
+            'order_id' => $order_id,
+            'order_status_id' => $order_status_id,
+            'comment' => $comment,
+            'date_added' => date('Y-m-d H:i:s'),
+            'notify' => 0
+        ]);
+
+        // Update main order status
+        $this->db->where('order_id', $order_id);
+        $this->db->update('oc_order', ['order_status_id' => $order_status_id]);
+
+        // Handle image upload if a file was uploaded
+        if (!empty($_FILES['order_image']['name'])) {
+            $uploadPath = './uploads/order_stage_images/';
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+
+            $config['upload_path'] = $uploadPath;
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size'] = 2048; // 2MB
+            $config['file_name'] = 'order_'.$order_id.'_'.time();
+
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('order_image')) {
+                $fileData = $this->upload->data();
+                // Save record (you need a table to store uploaded images per status)
+                $this->db->insert('oc_order_status_images', [
+                    'order_id' => $order_id,
+                    'order_status_id' => $order_status_id,
+                    'filename' => $fileData['file_name'],
+                    'date_added' => date('Y-m-d H:i:s')
+                ]);
+            } else {
+                $this->session->set_flashdata('error', $this->upload->display_errors());
+                redirect('orders/view_order/' . $order_id);
+            }
+        }
+
+        $this->session->set_flashdata('success', 'Order status updated successfully.');
+        redirect('orders/view_order/' . $order_id);
+    }
 
 }
