@@ -375,4 +375,31 @@ class Order_model extends CI_Model {
         }
         return '';
     }
+
+    public function update_order_status($order_id, $status_id, $comment = ''){
+        // Start transaction
+        $this->db->trans_start();
+
+        // 1. Update oc_order table
+        $this->db->where('order_id', $order_id);
+        $this->db->update('oc_order', ['order_status_id' => $status_id]);
+
+        // 2. Insert into oc_order_history
+        $history_data = [
+            'order_id'         => $order_id,
+            'order_status_id'  => $status_id,
+            'notify'           => 0, // or 1 if you want customer notification
+            'comment'          => $comment,
+            'date_added'       => date('Y-m-d H:i:s')
+        ];
+        $this->db->insert('oc_order_history', $history_data);
+
+        // Finish transaction
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
+    }
+    public function get_all_statuses(){
+        return $this->db->get('oc_order_status')->result_array();
+    }
 }
