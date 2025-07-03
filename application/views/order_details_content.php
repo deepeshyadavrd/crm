@@ -1,86 +1,123 @@
 <div class="container mt-4">
-    <h2>Order Details #<?php echo $order['order_id']; ?></h2>
+  <h2 class="mb-4">Order Details - #<?= html_escape($order['order_id']) ?></h2>
 
-<!-- Customer Information -->
-<h3>Customer</h3>
-<p>
-    <?php echo htmlspecialchars($order['firstname'] . ' ' . $order['lastname']); ?><br>
-    Email: <?php echo htmlspecialchars($order['email']); ?><br>
-    Phone: <?php echo htmlspecialchars($order['telephone']); ?>
-</p>
-
-<!-- Current Order Status -->
-<h3>Status</h3>
-<p><strong><?php echo htmlspecialchars($order['order_status_name']); ?></strong></p>
-
-<!-- Products -->
-<h3>Products</h3>
-<table border="1" cellpadding="6" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Model</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($order['products'] as $product): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($product['name']); ?></td>
-            <td><?php echo htmlspecialchars($product['model']); ?></td>
-            <td><?php echo (int)$product['quantity']; ?></td>
-            <td><?php echo number_format($product['price'], 2); ?></td>
-            <td><?php echo number_format($product['total'], 2); ?></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
-
-<!-- Totals -->
-<h3>Order Totals</h3>
-<ul>
-<?php foreach ($order['totals'] as $total): ?>
-    <li><?php echo htmlspecialchars($total['title']); ?>: <?php echo number_format($total['value'], 2); ?></li>
-<?php endforeach; ?>
-</ul>
-
-<!-- Flash Messages -->
-<?php if($this->session->flashdata('success')): ?>
-    <div style="color: green;"><?php echo $this->session->flashdata('success'); ?></div>
-<?php endif; ?>
-<?php if($this->session->flashdata('error')): ?>
-    <div style="color: red;"><?php echo $this->session->flashdata('error'); ?></div>
-<?php endif; ?>
-
-<hr>
-
-<!-- Single Form for Updating Status and Uploading Images -->
-<h3>Update Order Status</h3>
-<form method="post" enctype="multipart/form-data" action="<?php echo site_url('orders/update_status_and_upload/' . $order['order_id']); ?>">
-    <label for="order_status_id">Select New Status:</label>
-    <select name="order_status_id" id="order_status_id" required>
-        <?php foreach ($this->Order_model->get_all_statuses() as $status): ?>
-            <option value="<?php echo $status['order_status_id']; ?>" <?php if($status['order_status_id'] == $order['order_status_id']) echo 'selected'; ?>>
-                <?php echo htmlspecialchars($status['name']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <br>
-
-    <div id="imageUploadContainer" style="display: none; margin-top:10px;">
-        <label for="order_image">Upload Images:</label>
-        <input type="file" name="order_images[]" id="order_image" multiple>
-        <p style="font-size: 0.9em;">(You can select multiple images)</p>
+  <!-- Customer & Order Info -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>Customer Information</strong>
     </div>
+    <div class="card-body">
+      <p><strong>Name:</strong> <?= html_escape($order['customer_firstname'] . ' ' . $order['customer_lastname']) ?></p>
+      <p><strong>Email:</strong> <?= html_escape($order['customer_email']) ?></p>
+      <p><strong>Telephone:</strong> <?= html_escape($order['customer_telephone']) ?></p>
+      <p><strong>Order Status:</strong> <?= html_escape($order['order_status_name']) ?></p>
+      <p><strong>Date Added:</strong> <?= html_escape($order['date_added']) ?></p>
+    </div>
+  </div>
 
-    <label for="comment">Comment (optional):</label>
-    <br>
-    <textarea name="comment" id="comment" rows="3" cols="50"></textarea>
-    <br>
-    <button type="submit">Update Status</button>
-</form>
+  <!-- Payment Address -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>Payment Address</strong>
+    </div>
+    <div class="card-body">
+      <address>
+        <?= nl2br(html_escape($order['payment_firstname'] . ' ' . $order['payment_lastname'])) ?><br>
+        <?= html_escape($order['payment_address_1']) ?><br>
+        <?php if (!empty($order['payment_address_2'])): ?>
+          <?= html_escape($order['payment_address_2']) ?><br>
+        <?php endif; ?>
+        <?= html_escape($order['payment_city']) ?>, <?= html_escape($order['payment_postcode']) ?><br>
+        <?= html_escape($order['payment_zone']) ?><br>
+        <?= html_escape($order['payment_country']) ?>
+      </address>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>Ordered Products</strong>
+    </div>
+    <div class="card-body p-0">
+      <table class="table mb-0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Model</th>
+            <th class="text-end">Quantity</th>
+            <th class="text-end">Unit Price</th>
+            <th class="text-end">Tax</th>
+            <th class="text-end">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($order['products'] as $product): ?>
+          <tr>
+            <td><?= html_escape($product['name']) ?></td>
+            <td><?= html_escape($product['model']) ?></td>
+            <td class="text-end"><?= html_escape($product['quantity']) ?></td>
+            <td class="text-end"><?= html_escape(number_format($product['price'], 2)) ?></td>
+            <td class="text-end"><?= html_escape(number_format($product['tax'], 2)) ?></td>
+            <td class="text-end">
+              <?= html_escape(number_format(($product['price'] + $product['tax']) * $product['quantity'], 2)) ?>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Totals -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>Order Totals</strong>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <?php foreach ($order['totals'] as $total): ?>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <?= html_escape($total['title']) ?>
+            <span><?= html_escape(number_format($total['value'], 2)) ?></span>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Update Order Status and Upload Images -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>Update Order Status & Upload Images</strong>
+    </div>
+    <div class="card-body">
+      <form action="<?= site_url('orders/update_status_and_upload/'.$order['order_id']) ?>" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="order_status_id" class="form-label">Order Status</label>
+          <select name="order_status_id" id="order_status_id" class="form-select" required>
+            <option value="">-- Select Status --</option>
+            <?php foreach ($this->Order_model->get_all_statuses() as $status): ?>
+              <option value="<?= $status['order_status_id'] ?>" <?php if($status['order_status_id'] == $order['order_status_id']) echo 'selected'; ?>><?= html_escape($status['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3" id="imageUploadContainer" style="display:none; margin-top:10px;">
+          <label for="order_image" class="form-label">Upload Images (multiple)</label>
+          <input type="file" name="order_images[]" id="order_image" class="form-control" multiple>
+        </div>
+        <label for="comment">Comment (optional):</label>
+        <br>
+        <textarea name="comment" id="comment" rows="3" cols="50"></textarea>
+        <br>
+        <button type="submit" class="btn btn-primary">Update Status</button>
+      </form>
+    </div>
+  </div>
+
+  <a href="<?= site_url('orders') ?>" class="btn btn-secondary">Back to Orders</a>
+</div>
+
 
 <script>
 // Define which statuses require images
