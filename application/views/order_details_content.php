@@ -70,8 +70,9 @@
     <br>
 
     <div id="imageUploadContainer" style="display: none; margin-top:10px;">
-        <label for="order_image">Upload Image:</label>
-        <input type="file" name="order_image" id="order_image">
+        <label for="order_image">Upload Images:</label>
+        <input type="file" name="order_images[]" id="order_image" multiple>
+        <p style="font-size: 0.9em;">(You can select multiple images)</p>
     </div>
 
     <label for="comment">Comment (optional):</label>
