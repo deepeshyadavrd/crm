@@ -4,9 +4,9 @@
 <!-- Customer Information -->
 <h3>Customer</h3>
 <p>
-    <?php echo htmlspecialchars($order['customer_firstname'] . ' ' . $order['customer_lastname']); ?><br>
-    Email: <?php echo htmlspecialchars($order['customer_email']); ?><br>
-    Phone: <?php echo htmlspecialchars($order['customer_telephone']); ?>
+    <?php echo htmlspecialchars($order['firstname'] . ' ' . $order['lastname']); ?><br>
+    Email: <?php echo htmlspecialchars($order['email']); ?><br>
+    Phone: <?php echo htmlspecialchars($order['telephone']); ?>
 </p>
 
 <!-- Current Order Status -->
@@ -56,9 +56,9 @@
 
 <hr>
 
-<!-- Form to Update Status -->
+<!-- Single Form for Updating Status and Uploading Images -->
 <h3>Update Order Status</h3>
-<form method="post" action="<?php echo site_url('orders/update_status/' . $order['order_id']); ?>">
+<form method="post" enctype="multipart/form-data" action="<?php echo site_url('orders/update_status_and_upload/' . $order['order_id']); ?>">
     <label for="order_status_id">Select New Status:</label>
     <select name="order_status_id" id="order_status_id" required>
         <?php foreach ($this->Order_model->get_all_statuses() as $status): ?>
@@ -68,6 +68,12 @@
         <?php endforeach; ?>
     </select>
     <br>
+
+    <div id="imageUploadContainer" style="display: none; margin-top:10px;">
+        <label for="order_image">Upload Image:</label>
+        <input type="file" name="order_image" id="order_image">
+    </div>
+
     <label for="comment">Comment (optional):</label>
     <br>
     <textarea name="comment" id="comment" rows="3" cols="50"></textarea>
@@ -75,23 +81,39 @@
     <button type="submit">Update Status</button>
 </form>
 
-<hr>
+<script>
+// Define which statuses require images
+const statusesRequiringImage = [
+    <?php
+        // Replace these IDs with real IDs from your `oc_order_status` table
+        $statusNames = ['Under Manufacturing', 'Under Polishing', 'Under Quality Check'];
+        $statusIds = [];
+        foreach ($this->Order_model->get_all_statuses() as $status) {
+            if (in_array($status['name'], $statusNames)) {
+                $statusIds[] = (int)$status['order_status_id'];
+            }
+        }
+        echo implode(',', $statusIds);
+    ?>
+];
 
-<!-- Form to Upload Image for a Specific Status -->
-<h3>Upload Image (for specific status)</h3>
-<form method="post" enctype="multipart/form-data" action="<?php echo site_url('orders/upload_images/' . $order['order_id']); ?>">
-    <label for="order_status_id">Status this image belongs to:</label>
-    <select name="order_status_id" id="order_status_id" required>
-        <?php foreach ($this->Order_model->get_all_statuses() as $status): ?>
-            <option value="<?php echo $status['order_status_id']; ?>">
-                <?php echo htmlspecialchars($status['name']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <br>
-    <label for="order_image">Select Image:</label>
-    <input type="file" name="order_image" id="order_image" required>
-    <br>
-    <button type="submit">Upload Image</button>
-</form>
+const statusSelect = document.getElementById('order_status_id');
+const imageContainer = document.getElementById('imageUploadContainer');
+
+function toggleImageInput() {
+    const selectedId = parseInt(statusSelect.value);
+    if (statusesRequiringImage.includes(selectedId)) {
+        imageContainer.style.display = 'block';
+    } else {
+        imageContainer.style.display = 'none';
+    }
+}
+
+// Initialize on page load
+toggleImageInput();
+
+// Update on change
+statusSelect.addEventListener('change', toggleImageInput);
+</script>
+
 </div>
