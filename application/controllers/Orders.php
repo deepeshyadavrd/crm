@@ -239,32 +239,45 @@ class Orders extends CI_Controller {
         $this->db->where('order_id', $order_id);
         $this->db->update('oc_order', ['order_status_id' => $order_status_id]);
 
-        // Handle image upload if a file was uploaded
-        if (!empty($_FILES['order_image']['name'])) {
+        // Handle multiple image uploads
+        if (!empty($_FILES['order_images']['name'][0])) {
             $uploadPath = './uploads/order_stage_images/';
             if (!is_dir($uploadPath)) {
                 mkdir($uploadPath, 0755, true);
             }
 
-            $config['upload_path'] = $uploadPath;
-            $config['allowed_types'] = 'jpg|jpeg|png';
-            $config['max_size'] = 2048; // 2MB
-            $config['file_name'] = 'order_'.$order_id.'_'.time();
+            $files = $_FILES;
+            $fileCount = count($_FILES['order_images']['name']);
 
-            $this->upload->initialize($config);
+            for ($i = 0; $i < $fileCount; $i++) {
+                $_FILES['order_image']['name'] = $files['order_images']['name'][$i];
+                $_FILES['order_image']['type'] = $files['order_images']['type'][$i];
+                $_FILES['order_image']['tmp_name'] = $files['order_images']['tmp_name'][$i];
+                $_FILES['order_image']['error'] = $files['order_images']['error'][$i];
+                $_FILES['order_image']['size'] = $files['order_images']['size'][$i];
 
-            if ($this->upload->do_upload('order_image')) {
-                $fileData = $this->upload->data();
-                // Save record (you need a table to store uploaded images per status)
-                $this->db->insert('oc_order_status_images', [
-                    'order_id' => $order_id,
-                    'order_status_id' => $order_status_id,
-                    'filename' => $fileData['file_name'],
-                    'date_added' => date('Y-m-d H:i:s')
-                ]);
-            } else {
-                $this->session->set_flashdata('error', $this->upload->display_errors());
-                redirect('orders/view_order/' . $order_id);
+                $config['upload_path'] = $uploadPath;
+                $config['allowed_types'] = 'jpg|jpeg|png';
+                $config['max_size'] = 2048; // 2MB per image
+                $config['file_name'] = 'order_' . $order_id . '_' . time() . '_' . $i;
+
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('order_image')) {
+                    $fileData = $this->upload->data();
+
+                    // Insert record into oc_order_status_images
+                    $this->db->insert('oc_order_status_images', [
+                        'order_id' => $order_id,
+                        'order_status_id' => $order_status_id,
+                        'filename' => $fileData['file_name'],
+                        'date_added' => date('Y-m-d H:i:s')
+                    ]);
+                } else {
+                    // If even one upload fails, show the error and stop
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect('orders/view_order/' . $order_id);
+                }
             }
         }
 
