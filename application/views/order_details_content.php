@@ -340,27 +340,27 @@
                                     // Append to totals array
                                     array_splice($order["totals"], 1, 0, [$new_total]);?>
 
-                                        <?php foreach ($order['totals'] as $index => $total) { ?>
-                                    <div class="d-flex justify-content-between 
-                                        <?php if ($total["title"] == "Total") { ?>
-                                            border-top border-secondary pt-2
-                                        <?php } else { ?>
-                                            small mb-2<?php if ($index === count($order['totals']) - 2) echo ' mb-3'; ?>
-                                        <?php } ?>">
-                                        <span class="<?php echo ($total["title"] == "Total") ? 'h5 fw-semibold' : 'text-secondary'; ?>">
-                                            <?php echo htmlspecialchars($total["title"]); ?>
-                                        </span>
-                                        <span class="<?php echo ($total["title"] == "Total") ? 'h5 fw-semibold' : ''; ?>">
-                                            <?php
-                                            if (is_numeric($total["value"])) {
-                                                echo "₹" . number_format($total["value"], 2);
-                                            } else {
-                                                echo htmlspecialchars($total["value"]);
-                                            }
-                                            ?>
-                                        </span>
-                                    </div>
-                                <?php } ?>
+                                            <?php foreach ($order['totals'] as $index => $total) { ?>
+                                        <div class="d-flex justify-content-between 
+                                            <?php if ($total["title"] == "Total") { ?>
+                                                border-top border-secondary pt-2
+                                            <?php } else { ?>
+                                                small mb-2<?php if ($index === count($order['totals']) - 2) echo ' mb-3'; ?>
+                                            <?php } ?>">
+                                            <span class="<?php echo ($total["title"] == "Total") ? 'h5 fw-semibold' : 'text-secondary'; ?>">
+                                                <?php echo htmlspecialchars($total["title"]); ?>
+                                            </span>
+                                            <span class="<?php echo ($total["title"] == "Total") ? 'h5 fw-semibold' : ''; ?>">
+                                                <?php
+                                                if (is_numeric($total["value"])) {
+                                                    echo "₹" . number_format($total["value"], 2);
+                                                } else {
+                                                    echo htmlspecialchars($total["value"]);
+                                                }
+                                                ?>
+                                            </span>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -608,7 +608,7 @@
   </div>
 
   <!-- Totals -->
-  <div class="card mb-4">
+  <!-- <div class="card mb-4">
     <div class="card-header">
       <strong>Order Totals</strong>
     </div>
@@ -622,7 +622,7 @@
         <?php endforeach; ?>
       </ul>
     </div>
-  </div>
+  </div> -->
 
   <!-- Update Order Status and Upload Images -->
   <div class="card mb-4">
