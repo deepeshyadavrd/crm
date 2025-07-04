@@ -230,12 +230,17 @@
                             <div class="col-12 col-md-6">
                                 <h4 class="h6 fw-medium mb-2">Billing Address</h4>
                                 <div class="small text-secondary">
-                                    <p class="fw-medium text-dark mb-1">Sarah Johnson</p>
-                                    <p class="mb-1">sarah.johnson@email.com</p>
-                                    <p class="mb-1">+1 (555) 123-4567</p>
-                                    <p class="mb-1">123 Main Street</p>
-                                    <p class="mb-1">New York, NY 10001</p>
-                                    <p class="mb-0">United States</p>
+                                    <p class="fw-medium text-dark mb-1"><?= nl2br(html_escape($order['payment_firstname'] . ' ' . $order['payment_lastname'])) ?></p>
+                                    <p class="mb-1"><?= html_escape($order['email']) ?></p>
+                                    <p class="mb-1"><?= html_escape($order['telephone']) ?></p>
+                                    <p class="mb-1"><?= html_escape($order['payment_address_1']) ?></p>
+                                    <?php if (!empty($order['payment_address_2'])): ?>
+                                        <p class="mb-1"><?= html_escape($order['payment_address_2']) ?></p>
+                                    <?php endif; ?>
+                                    <p class="mb-1"><?= html_escape($order['payment_city']) ?>,<?= html_escape($order['payment_zone']) ?>, <?= html_escape($order['payment_postcode']) ?></p>
+                                    <p class="mb-0"><?= html_escape($order['payment_country']) ?></p>
+                                    
+        
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
