@@ -573,7 +573,7 @@
   </div> -->
 
   <!-- Products -->
-  <div class="card mb-4">
+  <!-- <div class="card mb-4">
     <div class="card-header">
       <strong>Ordered Products</strong>
     </div>
@@ -605,7 +605,7 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </div> -->
 
   <!-- Totals -->
   <!-- <div class="card mb-4">
