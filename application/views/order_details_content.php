@@ -535,7 +535,7 @@
   <h2 class="mb-4">Order Details - #<?= html_escape($order['order_id']) ?></h2>
 
   <!-- Customer & Order Info -->
-  <div class="card mb-4">
+  <!-- <div class="card mb-4">
     <div class="card-inner">
         <div class="card-header">
           <strong>Customer Information</strong>
@@ -565,7 +565,7 @@
       </address>
     </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Payment Address -->
   <!-- <div class="card mb-4">
