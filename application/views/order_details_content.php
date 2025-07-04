@@ -532,7 +532,7 @@
         </div>
     </div>
 <div class="container mt-4">
-  <h2 class="mb-4">Order Details - #<?= html_escape($order['order_id']) ?></h2>
+  <!-- <h2 class="mb-4">Order Details - #<?= html_escape($order['order_id']) ?></h2> -->
 
   <!-- Customer & Order Info -->
   <!-- <div class="card mb-4">
