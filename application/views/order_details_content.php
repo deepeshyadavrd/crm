@@ -313,7 +313,7 @@
                         <div class="border-top border-secondary pt-3">
                             <div class="row justify-content-end">
                                 <div class="col-12 col-sm-6">
-                                    <div class="d-flex justify-content-between small mb-2">
+                                    <!-- <div class="d-flex justify-content-between small mb-2">
                                         <span class="text-secondary">Subtotal</span>
                                         <span>$299.97</span>
                                     </div>
@@ -328,13 +328,39 @@
                                     <div class="d-flex justify-content-between border-top border-secondary pt-2">
                                         <span class="h5 fw-semibold">Total</span>
                                         <span class="h5 fw-semibold">$299.97</span>
-                                    </div>
-                                    <?php foreach ($order['totals'] as $total): ?>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <?= html_escape($total['title']) ?>
-            <span><?= html_escape(number_format($total['value'], 2)) ?></span>
-          </li>
-        <?php endforeach; ?>
+                                    </div> -->
+                                    <?php 
+                                    $new_total = $order["totals"][1];
+
+                                    $new_total["code"] = "shipping";
+                                    $new_total["title"] = "Shipping";
+                                    $new_total["value"] = "Free";
+                                    $new_total["sort_order"] = 5;
+
+                                    // Append to totals array
+                                    array_splice($order["totals"], 1, 0, [$new_total]);?>
+
+                                            <?php foreach ($order['totals'] as $index => $total) { ?>
+                                        <div class="d-flex justify-content-between 
+                                            <?php if ($total["title"] == "Total") { ?>
+                                                border-top border-secondary pt-2
+                                            <?php } else { ?>
+                                                small mb-2<?php if ($index === count($order['totals']) - 2) echo ' mb-3'; ?>
+                                            <?php } ?>">
+                                            <span class="<?php echo ($total["title"] == "Total") ? 'h5 fw-semibold' : 'text-secondary'; ?>">
+                                                <?php echo htmlspecialchars($total["title"]); ?>
+                                            </span>
+                                            <span class="<?php echo ($total["title"] == "Total") ? 'h5 fw-semibold' : ''; ?>">
+                                                <?php
+                                                if (is_numeric($total["value"])) {
+                                                    echo "₹" . number_format($total["value"], 2);
+                                                } else {
+                                                    echo htmlspecialchars($total["value"]);
+                                                }
+                                                ?>
+                                            </span>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
