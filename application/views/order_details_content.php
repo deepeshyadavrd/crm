@@ -246,10 +246,10 @@
                             <div class="col-12 col-md-6">
                                 <h4 class="h6 fw-medium mb-2">Shipping Address</h4>
                                 <div class="small text-secondary">
-                                    <p class="fw-medium text-dark mb-1">Sarah Johnson</p>
-                                    <p class="mb-1">123 Main Street</p>
-                                    <p class="mb-1">New York, NY 10001</p>
-                                    <p class="mb-0">United States</p>
+                                    <p class="fw-medium text-dark mb-1"><?= nl2br(html_escape($order['payment_firstname'] . ' ' . $order['payment_lastname'])) ?></p>
+                                    <p class="mb-1"><?= html_escape($order['payment_address_1']) ?></p>
+                                    <p class="mb-1"><?= html_escape($order['payment_city']) ?>,<?= html_escape($order['payment_zone']) ?>, <?= html_escape($order['payment_postcode']) ?></p>
+                                    <p class="mb-0"><?= html_escape($order['payment_country']) ?></p>
                                 </div>
                             </div>
                         </div>
@@ -262,25 +262,37 @@
                         <h3 class="h5 fw-semibold mb-4">Order Items</h3>
                         
                         <!-- Item 1 -->
+                    <?php foreach ($order['products'] as $product): ?>
                         <div class="border border-secondary rounded p-3 mb-3">
                             <div class="row align-items-center">
                                 <div class="col-auto">
                                     <img class="rounded" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Wireless Headphones" width="64" height="64" style="object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
                                 </div>
                                 <div class="col">
-                                    <h4 class="h6 fw-medium mb-1">Wireless Bluetooth Headphones</h4>
-                                    <p class="small text-secondary mb-1">SKU: WBH-001</p>
-                                    <p class="small text-secondary mb-0">Color: Black</p>
+                                    <h4 class="h6 fw-medium mb-1"><?= html_escape($product['name']) ?></h4>
+                                    <p class="small text-secondary mb-1">Model: <?= html_escape($product['model']) ?></p>
+                                    <!-- <p class="small text-secondary mb-0">Color: Black</p> -->
                                 </div>
                                 <div class="col-auto text-end">
-                                    <p class="fw-medium mb-1">Qty: 1</p>
-                                    <p class="h5 fw-semibold mb-0">$99.99</p>
+                                    <p class="fw-medium mb-1">Qty: <?= html_escape($product['quantity']) ?></p>
+                                    <p class="h5 fw-semibold mb-0"><?= html_escape(number_format(($product['price'] + $product['tax']) * $product['quantity'], 2)) ?></p>
                                 </div>
                             </div>
                         </div>
-
+                    <?php endforeach; ?>
+          <!-- <tr>
+            <td><?= html_escape($product['name']) ?></td>
+            <td><?= html_escape($product['model']) ?></td>
+            <td class="text-end"><?= html_escape($product['quantity']) ?></td>
+            <td class="text-end"><?= html_escape(number_format($product['price'], 2)) ?></td>
+            <td class="text-end"><?= html_escape(number_format($product['tax'], 2)) ?></td>
+            <td class="text-end">
+              <?= html_escape(number_format(($product['price'] + $product['tax']) * $product['quantity'], 2)) ?>
+            </td>
+          </tr> -->
+          
                         <!-- Item 2 -->
-                        <div class="border border-secondary rounded p-3 mb-4">
+                        <!-- <div class="border border-secondary rounded p-3 mb-4">
                             <div class="row align-items-center">
                                 <div class="col-auto">
                                     <img class="rounded" src="https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Smartphone Case" width="64" height="64" style="object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
@@ -295,7 +307,7 @@
                                     <p class="h5 fw-semibold mb-0">$199.98</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Order Total -->
                         <div class="border-top border-secondary pt-3">
@@ -317,6 +329,12 @@
                                         <span class="h5 fw-semibold">Total</span>
                                         <span class="h5 fw-semibold">$299.97</span>
                                     </div>
+                                    <?php foreach ($order['totals'] as $total): ?>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <?= html_escape($total['title']) ?>
+            <span><?= html_escape(number_format($total['value'], 2)) ?></span>
+          </li>
+        <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
