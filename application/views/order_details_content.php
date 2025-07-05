@@ -402,7 +402,7 @@
                                         <p class="small text-secondary mb-1">Drag and drop images here, or click to select</p>
                                         <p class="text-muted" style="font-size: 0.75rem;">PNG, JPG up to 5MB each</p>
                                     </div>
-                                    <input type="file" id="imageInput" multiple accept="image/jpeg,image/png" class="d-none" />
+                                    <input type="file" id="order_image" multiple accept="image/jpeg,image/png" class="d-none" />
                                 </div>
                             </div>
 
