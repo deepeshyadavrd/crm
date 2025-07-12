@@ -383,7 +383,6 @@ class Order_model extends CI_Model {
         // 1. Update oc_order table
         $this->db->where('order_id', $order_id);
         $this->db->update('oc_order', ['order_status_id' => $status_id]);
-
         // 2. Insert into oc_order_history
         $history_data = [
             'order_id'         => $order_id,

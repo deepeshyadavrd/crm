@@ -425,7 +425,6 @@
                         </form>
                     </div>
                 </div>
-
                 <!-- Uploaded Images Gallery -->
                 <div id="imageGallery" class="card shadow-card mb-4">
                     <div class="card-body">
