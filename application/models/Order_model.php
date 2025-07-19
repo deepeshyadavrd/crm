@@ -391,6 +391,7 @@ class Order_model extends CI_Model {
             'comment'          => $comment,
             'date_added'       => date('Y-m-d H:i:s')
         ];
+        
         $this->db->insert('oc_order_history', $history_data);
 
         // Finish transaction
