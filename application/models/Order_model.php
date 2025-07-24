@@ -401,5 +401,6 @@ class Order_model extends CI_Model {
     }
     public function get_all_statuses(){
         return $this->db->get('oc_order_status')->result_array();
+        
     }
 }
