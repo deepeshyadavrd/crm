@@ -30,7 +30,8 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($orders as $order): ?>
+                <?php print_r($order_statuses); 
+                foreach ($orders as $order): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($order['order_id']); ?></td>
                     <td><?php echo htmlspecialchars($order['invoice_no'] ? $order['invoice_no'] : 'N/A'); ?></td>
@@ -63,3 +64,63 @@
         <?php endif; ?>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Attach a change event listener to all dropdowns with the class 'order-status-dropdown'
+    $('.order-status-dropdown').on('change', function() {
+        const orderId = $(this).data('order-id');
+        const newStatusId = $(this).val();
+        const newStatusName = $(this).find('option:selected').text();
+        const dropdownElement = $(this);
+
+        // AJAX request to update the order status
+        $.ajax({
+            url: '<?php echo site_url("order/update_status"); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                order_id: orderId,
+                status_id: newStatusId,
+                '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+            },
+            beforeSend: function() {
+                // Optional: Show a loading indicator
+                dropdownElement.prop('disabled', true).after('<span class="loading-spinner">...</span>');
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Update the status name on the list without refreshing
+                    // The dropdown already shows the new status, so we don't need to do anything here
+                    // unless you have a separate text field showing the status.
+
+                    // Show a success popup
+                    alert('Order ' + orderId + ' status updated to "' + newStatusName + '".');
+                } else {
+                    // Revert the dropdown if the update failed
+                    alert('Failed to update status: ' + response.message);
+                    dropdownElement.val(dropdownElement.data('old-status-id'));
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX errors
+                alert('An error occurred. Please try again.');
+                console.error(xhr.responseText);
+                // Revert the dropdown on error
+                dropdownElement.val(dropdownElement.data('old-status-id'));
+            },
+            complete: function() {
+                // Optional: Hide loading indicator and re-enable the dropdown
+                $('.loading-spinner').remove();
+                dropdownElement.prop('disabled', false);
+            }
+        });
+    });
+
+    // Store the initial status ID on page load to revert on error
+    $('.order-status-dropdown').each(function() {
+        $(this).data('old-status-id', $(this).val());
+    });
+});
+</script>
