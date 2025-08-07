@@ -39,10 +39,20 @@
                     <td><?php echo htmlspecialchars($order['currency_code']); ?> <?php echo number_format($order['total'], 2); ?></td>
                     <td><?php echo htmlspecialchars($order['order_status_name']); ?></td>
                     <td>
+                        <select class="order-status-dropdown" data-order-id="<?php echo $order['order_id']; ?>">
+                            <?php foreach ($order_statuses as $status): ?>
+                                <option value="<?php echo $status['order_status_id']; ?>"
+                                    <?php echo ($order['status_id'] == $status['order_status_id']) ? 'selected' : ''; ?>>
+                                    <?php echo $status['order_status_name']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td>
                         <a href="<?php echo site_url('orders/view_order/' . $order['order_id']); ?>" class="btn btn-info">View Details</a>
                         <a href="<?php echo site_url('invoice/download_pdf/' . $order['order_id']); ?>" class="btn btn-primary" target="_blank">PDF Invoice</a>
                         <a href="<?php echo site_url('invoice/send_email/' . $order['order_id']); ?>" class="btn btn-success" onclick="return confirm('Send invoice to <?php echo htmlspecialchars($order['firstname'] . ' ' . $order['lastname']); ?>?');">Email Invoice</a>
-                        </td>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

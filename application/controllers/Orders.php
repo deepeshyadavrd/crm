@@ -11,11 +11,20 @@ class Orders extends CI_Controller {
         $this->load->library('pagination'); // Load the Pagination Library
         $this->load->helper('form');
         $this->load->library('form_validation');
+
         // --- Access Control (THE PROTECTION) ---
         // Ensure only logged-in users can access this page
         if (!$this->session->userdata('is_logged_in')) {
             $this->session->set_flashdata('error', 'You must be logged in to access this page.');
             redirect('auth/login');
+            if ($this->input->is_ajax_request()) {
+                $this->output
+                     ->set_content_type('application/json')
+                     ->set_output(json_encode(['success' => false, 'message' => 'Authentication failed.']));
+                exit();
+            } else {
+                redirect('login');
+            }
         }
     }
 
@@ -58,6 +67,7 @@ class Orders extends CI_Controller {
 
 
         $data['orders'] = $this->Order_model->get_all_orders($config['per_page'], $offset, $search_query); // Fetch all orders
+        $data['order_statuses'] = $this->Order_model->get_order_statuses();
         $data['pagination_links'] = $this->pagination->create_links(); // Generate pagination links
 
         // Tell the layout which content view to load
@@ -283,6 +293,51 @@ class Orders extends CI_Controller {
 
         $this->session->set_flashdata('success', 'Order status updated successfully.');
         redirect('orders/view_order/' . $order_id);
+    }
+
+    // New method for AJAX status updates
+    public function update_status() {
+        if (!$this->input->is_ajax_request()) {
+            // Not an AJAX request, reject it
+            show_404();
+        }
+
+        // Set validation rules for the incoming POST data
+        $this->form_validation->set_rules('order_id', 'Order ID', 'required|integer');
+        $this->form_validation->set_rules('status_id', 'Status ID', 'required|integer');
+
+        if ($this->form_validation->run() == FALSE) {
+            // Validation failed, send back an error response
+            $response = [
+                'success' => false,
+                'message' => validation_errors()
+            ];
+        } else {
+            $order_id = $this->input->post('order_id');
+            $status_id = $this->input->post('status_id');
+
+            // Call the model method to update the order status
+            $result = $this->Order_model->update_order_status1($order_id, $status_id);
+
+            if ($result) {
+                // Success, send back a success response
+                $response = [
+                    'success' => true,
+                    'message' => 'Order status updated successfully.'
+                ];
+            } else {
+                // Update failed, send back an error response
+                $response = [
+                    'success' => false,
+                    'message' => 'Database update failed.'
+                ];
+            }
+        }
+
+        // Send the JSON response and stop execution
+        $this->output
+             ->set_content_type('application/json')
+             ->set_output(json_encode($response));
     }
 
 }

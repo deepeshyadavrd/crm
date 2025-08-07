@@ -29,7 +29,7 @@ class Order_model extends CI_Model {
         $this->db->select(
             'o.order_id, o.invoice_no, o.date_added, o.total, o.currency_code, ' .
             'o.firstname AS firstname, o.lastname AS lastname, ' .
-            'os.name AS order_status_name'
+            'os.name AS order_status_name, o.order_status_id AS status_id'
         );
         $this->db->from('oc_order o'); // oc_order
         // $this->db->join('oc_customer c', 'c.customer_id = o.customer_id', 'left'); // oc_customer
@@ -49,6 +49,7 @@ class Order_model extends CI_Model {
         $this->db->limit($limit, $offset); // Apply pagination limits
 
         $query = $this->db->get();
+        // print_r($query->result_array());
         return $query->result_array();
     }
 
@@ -402,5 +403,52 @@ class Order_model extends CI_Model {
     public function get_all_statuses(){
         return $this->db->get('oc_order_status')->result_array();
         
+    }
+    public function update_order_status1($order_id, $status_id) {
+        // Start a database transaction for data integrity
+        $this->db->trans_begin();
+
+        try {
+            // 1. Update the order_status_id in the main oc_order table
+            $this->db->where('order_id', $order_id);
+            $this->db->update('oc_order', ['order_status_id' => $status_id, 'date_modified' => date('Y-m-d H:i:s')]);
+            
+            if ($this->db->affected_rows() === 0) {
+                 // No rows were affected, indicating the order_id was not found
+                 throw new Exception("Order ID not found.");
+            }
+
+            // 2. Add a new entry to oc_order_history table
+            $data = [
+                'order_id' => $order_id,
+                'order_status_id' => $status_id,
+                'notify' => 0, // 0 for no notification, 1 for notification
+                'comment' => 'Status updated via CRM list view.',
+                'date_added' => date('Y-m-d H:i:s')
+            ];
+            $this->db->insert('oc_order_history', $data);
+
+            if ($this->db->trans_status() === FALSE) {
+                // Something failed in the transaction
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                // Everything is good, commit the changes
+                $this->db->trans_commit();
+                return true;
+            }
+        } catch (Exception $e) {
+            // Rollback on error and return false
+            $this->db->trans_rollback();
+            log_message('error', 'Failed to update order status: ' . $e->getMessage());
+            return false;
+        }
+    }
+     public function get_order_statuses() {
+        $this->db->select('order_status_id, name');
+        $this->db->from('oc_order_status');
+        $this->db->where('language_id', 1); // Assuming language_id 1 (English)
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }
