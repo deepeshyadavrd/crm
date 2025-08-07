@@ -30,7 +30,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php print_r($order_statuses); 
+                <?php
                 foreach ($orders as $order): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($order['order_id']); ?></td>
@@ -38,15 +38,20 @@
                     <td><?php echo htmlspecialchars($order['firstname'] . ' ' . $order['lastname']); ?></td>
                     <td><?php echo date('Y-m-d H:i', strtotime($order['date_added'])); ?></td>
                     <td><?php echo htmlspecialchars($order['currency_code']); ?> <?php echo number_format($order['total'], 2); ?></td>
-                    <td><?php echo htmlspecialchars($order['order_status_name']); ?></td>
+                    <!-- <td><?php echo htmlspecialchars($order['order_status_name']); ?></td> -->
                     <td>
                         <select class="order-status-dropdown" data-order-id="<?php echo $order['order_id']; ?>">
                             <?php foreach ($order_statuses as $status): ?>
-                                <option value="<?php echo $status['order_status_id']; ?>"
+                            <option value="<?php echo $status['order_status_id']; ?>"
                                     <?php echo ($order['status_id'] == $status['order_status_id']) ? 'selected' : ''; ?>>
-                                    <?php echo $status['order_status_name']; ?>
-                                </option>
+                                <?php echo $status['name']; ?>
+                            </option>
                             <?php endforeach; ?>
+                            
+                            <?php if (empty($order['status_id'])): ?>
+                                <option value="0" selected>No Status</option>
+                            <?php endif; ?>
+                            
                         </select>
                     </td>
                     <td>
@@ -77,7 +82,7 @@ $(document).ready(function() {
 
         // AJAX request to update the order status
         $.ajax({
-            url: '<?php echo site_url("order/update_status"); ?>',
+            url: '<?php echo site_url("orders/update_status"); ?>',
             type: 'POST',
             dataType: 'json',
             data: {
