@@ -76,6 +76,22 @@
 
 <script>
 $(document).ready(function() {
+    // A simple function to show a custom popup message
+    function showNotification(message) {
+        const popup = $('#notification-popup');
+        const messageElement = $('#notification-message');
+        
+        // Update the message text
+        messageElement.text(message);
+        
+        // Show the popup by adding the 'show' class
+        popup.addClass('show');
+        
+        // Set a timeout to fade the popup away after 5 seconds
+        setTimeout(function() {
+            popup.removeClass('show');
+        }, 5000); // 5000 milliseconds = 5 seconds
+    }
     // Attach a change event listener to all dropdowns with the class 'order-status-dropdown'
     $('.order-status-dropdown').on('change', function() {
         const orderId = $(this).data('order-id');
@@ -104,7 +120,8 @@ $(document).ready(function() {
                     // unless you have a separate text field showing the status.
 
                     // Show a success popup
-                    alert('Order ' + orderId + ' status updated to "' + newStatusName + '".');
+                    // alert('Order ' + orderId + ' status updated to "' + newStatusName + '".');
+                    showNotification('Order ' + orderId + ' status updated to "' + newStatusName + '".');
                 } else {
                     // Revert the dropdown if the update failed
                     alert('Failed to update status: ' + response.message);
