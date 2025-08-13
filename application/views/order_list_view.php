@@ -107,13 +107,20 @@
 <script>
 $(document).ready(function() {
     // A simple function to show a custom popup message
-    function showNotification(message) {
+    function showNotification(message, type = 'success') {
         const popup = $('#notification-popup');
         const messageElement = $('#notification-message');
         
         // Update the message text
         messageElement.text(message);
         
+        // Set the background color based on the notification type
+        if (type === 'error') {
+            popup.removeClass('show').removeClass('success').addClass('error');
+        } else {
+            popup.removeClass('show').removeClass('error').addClass('success');
+        }
+
         // Show the popup by adding the 'show' class
         popup.addClass('show');
         
@@ -151,17 +158,19 @@ $(document).ready(function() {
 
                     // Show a success popup
                     // alert('Order ' + orderId + ' status updated to "' + newStatusName + '".');
-                    showNotification('Order ' + orderId + ' status updated to "' + newStatusName + '".');
+                    showNotification('Order ' + orderId + ' status updated to "' + newStatusName + '".', 'success');
                 } else {
                     // Revert the dropdown if the update failed
-                    alert('Failed to update status: ' + response.message);
+                    // alert('Failed to update status: ' + response.message);
+                    showNotification('Error: ' + response.message, 'error');
                     dropdownElement.val(dropdownElement.data('old-status-id'));
                 }
             },
             error: function(xhr, status, error) {
                 // Handle AJAX errors
-                alert('An error occurred. Please try again.');
-                console.error(xhr.responseText);
+                // alert('An error occurred. Please try again.');
+                showNotification('An error occurred. Please try again.', 'error');
+                // console.error(xhr.responseText);
                 // Revert the dropdown on error
                 dropdownElement.val(dropdownElement.data('old-status-id'));
             },
@@ -172,6 +181,9 @@ $(document).ready(function() {
             }
         });
     });
+
+    // We also need to add the 'success' class to the popup for the default styling
+    $('#notification-popup').addClass('success');
 
     // Store the initial status ID on page load to revert on error
     $('.order-status-dropdown').each(function() {
