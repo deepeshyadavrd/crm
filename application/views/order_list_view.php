@@ -69,6 +69,9 @@
         <?php endif; ?>
     </div>
 </div>
+<div id="notification-popup">
+    <div id="notification-message"></div>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
