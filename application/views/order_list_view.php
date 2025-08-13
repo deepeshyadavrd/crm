@@ -1,5 +1,35 @@
+<style>
+    /* Styling for the notification container */
+    #notification-popup {
+        position: fixed;
+        top: 20px;
+        right: -350px; /* Start off-screen to the right */
+        width: 300px;
+        background-color: #28a745; /* Success color */
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        opacity: 0; /* Start invisible */
+        font-family: Arial, sans-serif;
+    }
+    /* Styling for the message inside the popup */
+    #notification-message {
+        font-weight: bold;
+    }
+    /* State when the popup is visible */
+    #notification-popup.show {
+        right: 20px; /* Slide into view */
+        opacity: 1; /* Become visible */
+    }
+    #notification-popup.error {
+        background-color: #dc3545; /* A standard red color for errors */
+    }
+</style>
 <div class="main-content">
-
+    
     <form action="<?php echo site_url('orders'); ?>" method="get" class="search-form">
         <input type="text" name="search_query" placeholder="Search by Order ID, Invoice No., Customer, Status..." value="<?php echo htmlspecialchars($search_query); ?>">
         <button type="submit">Search</button>
