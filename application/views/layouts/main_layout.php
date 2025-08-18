@@ -292,7 +292,6 @@
     </style>
 </head>
 <body>
-
     <div class="sidebar">
         <div class="logo-section">
             <img src="<?php echo base_url('assets/images/crm_logo.png'); ?>" alt="CRM Logo">
