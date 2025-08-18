@@ -152,12 +152,8 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.success) {
-                    // Update the status name on the list without refreshing
-                    // The dropdown already shows the new status, so we don't need to do anything here
-                    // unless you have a separate text field showing the status.
-
-                    // Show a success popup
-                    // alert('Order ' + orderId + ' status updated to "' + newStatusName + '".');
+                   // Show a success popup
+                    
                     showNotification('Order ' + orderId + ' status updated to "' + newStatusName + '".', 'success');
                 } else {
                     // Revert the dropdown if the update failed
