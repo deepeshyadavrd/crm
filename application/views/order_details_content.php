@@ -375,7 +375,7 @@
                 <div class="card shadow-card mb-4">
                     <div class="card-body">
                         <h3 class="h5 fw-semibold mb-4">Update Order Status</h3>
-                        <form id="statusUpdateForm">
+                        <form id="statusUpdateForm" action="<?= site_url('orders/update_status_and_upload/'.$order['order_id']) ?>" method="post" enctype="multipart/form-data">
                             <!-- Status Selection -->
                             <div class="mb-3">
                                 <label for="order_status_id" class="form-label fw-medium">Order Status</label>
@@ -389,12 +389,12 @@
 
                             <!-- Notes -->
                             <div class="mb-3">
-                                <label for="statusNotes" class="form-label fw-medium">Notes (Optional)</label>
-                                <textarea id="statusNotes" name="statusNotes" rows="3" placeholder="Add any additional notes about this status update..." class="form-control" style="resize: none;"></textarea>
+                                <label for="comment" class="form-label fw-medium">Notes (Optional)</label>
+                                <textarea id="comment" name="comment" rows="3" placeholder="Add any additional notes about this status update..." class="form-control" style="resize: none;"></textarea>
                             </div>
 
                             <!-- Image Upload Section -->
-                            <div class="mb-3">
+                            <div class="mb-3" id="imageUploadContainer">
                                 <label class="form-label fw-medium">Upload Images</label>
                                 <div id="imageUploadArea" class="upload-area rounded p-4 text-center" style="cursor: pointer;">
                                     <div id="uploadPrompt">
@@ -402,7 +402,7 @@
                                         <p class="small text-secondary mb-1">Drag and drop images here, or click to select</p>
                                         <p class="text-muted" style="font-size: 0.75rem;">PNG, JPG up to 5MB each</p>
                                     </div>
-                                    <input type="file" id="order_image" multiple accept="image/jpeg,image/png" class="d-none" />
+                                    <input type="file" id="order_image" name="order_images[]" multiple accept="image/jpeg,image/png" class="d-none" />
                                 </div>
                             </div>
 
@@ -487,7 +487,7 @@
 
 
   <!-- Update Order Status and Upload Images -->
-  <div class="card mb-4">
+  <!-- <div class="card mb-4">
     <div class="card-header">
       <strong>Update Order Status & Upload Images</strong>
     </div>
@@ -513,9 +513,9 @@
         <button type="submit" class="btn btn-primary">Update Status</button>
       </form>
     </div>
-  </div>
+  </div> -->
 
-  <a href="<?= site_url('orders') ?>" class="btn btn-secondary">Back to Orders</a>
+  <!-- <a href="<?= site_url('orders') ?>" class="btn btn-secondary">Back to Orders</a> -->
 </div>
 
 
