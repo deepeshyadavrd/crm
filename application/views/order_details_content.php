@@ -402,7 +402,7 @@
                                         <p class="small text-secondary mb-1">Drag and drop images here, or click to select</p>
                                         <p class="text-muted" style="font-size: 0.75rem;">PNG, JPG up to 5MB each</p>
                                     </div>
-                                    <input type="file" id="order_image" name="order_images[]" multiple accept="image/jpeg,image/png" class="d-none" />
+                                    <input type="file" id="imageInput" name="order_images[]" multiple accept="image/jpeg,image/png" class="d-none" />
                                 </div>
                             </div>
 
@@ -426,7 +426,7 @@
 
                             </style>
 <!-- Upload Box -->
-<div class="mb-3" id="imageUploadContainer">
+<!-- <div class="mb-3" id="imageUploadContainer">
     <label class="form-label fw-medium">Upload Images</label>
     <div id="imageUploadArea" 
          class="upload-area rounded p-4 text-center" 
@@ -440,12 +440,12 @@
                name="image" 
                accept="image/*" 
                style="display: none;" />
-        <img id="previewImage" src="" 
+        <!-- <img id="previewImage" src="" 
              class="img-fluid mt-3 d-none" 
-             alt="Preview">
+             alt="Preview"> --
     </div>
 </div>
-                            <!-- Form Actions -->
+                            Form Actions -->
                             <div class="d-flex gap-2">
                                 <button type="submit" id="updateButton" class="btn btn-primary flex-grow-1 btn-scale">
                                     <span id="updateButtonText">Update Status</span>
