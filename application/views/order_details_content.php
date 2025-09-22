@@ -413,6 +413,18 @@
                                 </div>
                                 <p class="small text-secondary">Uploading images...</p>
                             </div>
+                            <style>
+                                .upload-area {
+    border: 2px dashed #bbb;
+    background: #fafafa;
+    transition: border-color 0.3s, background 0.3s;
+}
+.upload-area.dragover {
+    border-color: #007bff;
+    background: #e9f3ff;
+}
+
+                            </style>
 <!-- Upload Box -->
 <div class="mb-3" id="imageUploadContainer">
     <label class="form-label fw-medium">Upload Images</label>
