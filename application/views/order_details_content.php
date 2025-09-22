@@ -583,6 +583,47 @@ toggleImageInput();
 
 // Update on change
 statusSelect.addEventListener('change', toggleImageInput);
+
+//
+document.addEventListener("DOMContentLoaded", function () {
+    const uploadArea = document.getElementById("imageUploadArea");
+    const input = document.getElementById("imageInput");
+    const preview = document.getElementById("previewImage");
+
+    // Click to open file input
+    uploadArea.addEventListener("click", () => input.click());
+
+    // Show preview on file select
+    input.addEventListener("change", () => {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                preview.src = e.target.result;
+                preview.classList.remove("d-none");
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
+
+    // Drag & drop
+    uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+    });
+
+    uploadArea.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("dragover");
+    });
+
+    uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        input.files = e.dataTransfer.files;
+        const event = new Event("change");
+        input.dispatchEvent(event);
+    });
+});
+
 </script>
 
 </div>
