@@ -413,7 +413,26 @@
                                 </div>
                                 <p class="small text-secondary">Uploading images...</p>
                             </div>
-
+<!-- Upload Box -->
+<div class="mb-3" id="imageUploadContainer">
+    <label class="form-label fw-medium">Upload Images</label>
+    <div id="imageUploadArea" 
+         class="upload-area rounded p-4 text-center" 
+         style="cursor: pointer;">
+        <div id="uploadPrompt">
+            <i class="fas fa-cloud-upload-alt fs-1 text-secondary mb-2"></i>
+            <p class="mb-0">Click or Drag & Drop an image here</p>
+        </div>
+        <input type="file" 
+               id="imageInput" 
+               name="image" 
+               accept="image/*" 
+               style="display: none;" />
+        <img id="previewImage" src="" 
+             class="img-fluid mt-3 d-none" 
+             alt="Preview">
+    </div>
+</div>
                             <!-- Form Actions -->
                             <div class="d-flex gap-2">
                                 <button type="submit" id="updateButton" class="btn btn-primary flex-grow-1 btn-scale">
