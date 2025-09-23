@@ -95,12 +95,21 @@ class Order_model extends CI_Model {
         $order['totals'] = $order_totals_query->result_array();
         
         // Fetch order image
-        $this->db->select('filename');
+        $this->db->select('filename,DATE(date_added) as added_date');
         $this->db->from('oc_order_status_images');
         $this->db->where('order_id', $order_id);
+        $this->db->order_by('date_added', 'ASC');
+        
         $image_query = $this->db->get();
-// print_r($image_query->row());
-        $order['image'] = $image_query->num_rows() > 0 ? $image_query->row()->filename : null;
+        // Group by date in PHP
+        $grouped_images = [];
+        $images = $image_query->result_array();
+
+        foreach ($images as $img) {
+            $grouped_images[$img['added_date']][] = $img['filename'];
+        }
+
+        $order['images_grouped'] = $grouped_images;
 
         return $order;
     }
