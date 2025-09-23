@@ -93,6 +93,14 @@ class Order_model extends CI_Model {
         $this->db->order_by('sort_order', 'ASC');
         $order_totals_query = $this->db->get();
         $order['totals'] = $order_totals_query->result_array();
+        
+        // Fetch order image
+        $this->db->select('filename');
+        $this->db->from('oc_order_status_images');
+        $this->db->where('order_id', $order_id);
+        $image_query = $this->db->get();
+// print_r($image_query->row());
+        $order['image'] = $image_query->num_rows() > 0 ? $image_query->row()->filename : null;
 
         return $order;
     }
