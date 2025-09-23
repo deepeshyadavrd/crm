@@ -457,24 +457,52 @@
                     </div>
                 </div>
                 <!-- Uploaded Images Gallery -->
+                 
+    
+        <!-- <h5><?= date("d M Y", strtotime($date)); ?></h5>
+        <?php foreach ($images as $img): ?>
+            <img src="<?= base_url('uploads/orders/'.$img); ?>" 
+                 alt="Order Image" width="100" style="margin:5px;">
+        <?php endforeach; ?> -->
+    
+
+                <?php if (!empty($order['images_grouped'])): ?>
                 <div id="imageGallery" class="card shadow-card mb-4">
                     <div class="card-body">
                         <h3 class="h5 fw-semibold mb-4">Uploaded Images</h3>
                         <div id="galleryGrid" class="row g-2">
                             <!-- Sample uploaded image -->
-                            <div class="col-6">
+                            <?php foreach ($order['images_grouped'] as $date => $images): ?>
+
+                                <h5><?= date("d M Y", strtotime($date)); ?></h5>
+                                
+                                    <?php foreach ($images as $img): ?>
+                                        <div class="col-6">
+                                        <div class="position-relative image-container">
+                                        <!-- <img src="<?= base_url('uploads/order_stage_images/'.$img); ?>"  -->
+                                        <!-- alt="Order Image" width="100" style="margin:5px;"> -->
+                                        <img class="image-thumbnail rounded border" src="<?= base_url('uploads/order_stage_images/'.$img); ?>" alt="Uploaded Image" />
+                                    <button class="remove-btn" onclick="removeImage(this)">
+                                        <i class="fas fa-times" style="font-size: 0.75rem;"></i>
+                                    </button>
+                                        </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                
+                            <?php endforeach; ?>
+                            <!-- <div class="col-6">
                                 <div class="position-relative image-container">
                                     <img class="image-thumbnail rounded border" src="https://images.pixabay.com/photo/2017/08/10/08/47/laptop-2620118_1280.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Uploaded Image" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
                                     <button class="remove-btn" onclick="removeImage(this)">
                                         <i class="fas fa-times" style="font-size: 0.75rem;"></i>
                                     </button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <p class="small text-secondary mt-3 mb-0">1 image uploaded</p>
                     </div>
                 </div>
-
+                <?php endif; ?>
                 <!-- Quick Actions -->
                 <div class="card shadow-card">
                     <div class="card-body">
