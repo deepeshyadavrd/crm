@@ -490,14 +490,7 @@
                                     <?php endforeach; ?>
                                 
                             <?php endforeach; ?>
-                            <!-- <div class="col-6">
-                                <div class="position-relative image-container">
-                                    <img class="image-thumbnail rounded border" src="https://images.pixabay.com/photo/2017/08/10/08/47/laptop-2620118_1280.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Uploaded Image" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
-                                    <button class="remove-btn" onclick="removeImage(this)">
-                                        <i class="fas fa-times" style="font-size: 0.75rem;"></i>
-                                    </button>
-                                </div>
-                            </div> -->
+
                         </div>
                         <p class="small text-secondary mt-3 mb-0">1 image uploaded</p>
                     </div>
@@ -544,37 +537,6 @@
     </div>
 <div class="container mt-4">
 
-
-  <!-- Update Order Status and Upload Images -->
-  <!-- <div class="card mb-4">
-    <div class="card-header">
-      <strong>Update Order Status & Upload Images</strong>
-    </div>
-    <div class="card-body">
-      <form action="<?= site_url('orders/update_status_and_upload/'.$order['order_id']) ?>" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-          <label for="order_status_id" class="form-label">Order Status</label>
-          <select name="order_status_id" id="order_status_id" class="form-select" required>
-            <option value="">-- Select Status --</option>
-            <?php foreach ($this->Order_model->get_all_statuses() as $status): ?>
-              <option value="<?= $status['order_status_id'] ?>" <?php if($status['order_status_id'] == $order['order_status_id']) echo 'selected'; ?>><?= html_escape($status['name']) ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="mb-3" id="imageUploadContainer" style="display:none; margin-top:10px;">
-          <label for="order_image" class="form-label">Upload Images (multiple)</label>
-          <input type="file" name="order_images[]" id="order_image" class="form-control" multiple>
-        </div>
-        <label for="comment">Comment (optional):</label>
-        <br>
-        <textarea name="comment" id="comment" rows="3" cols="50"></textarea>
-        <br>
-        <button type="submit" class="btn btn-primary">Update Status</button>
-      </form>
-    </div>
-  </div> -->
-
-  <!-- <a href="<?= site_url('orders') ?>" class="btn btn-secondary">Back to Orders</a> -->
 </div>
 
 
