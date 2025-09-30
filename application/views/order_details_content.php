@@ -505,14 +505,14 @@
                                 <i class="fas fa-print me-2"></i>
                                 Print Order
                             </button>
-                            <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center">
+                            <!-- <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center">
                                 <i class="fas fa-envelope me-2"></i>
                                 Email Customer
-                            </button>
-                            <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center">
+                            </button> -->
+                            <!-- <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center">
                                 <i class="fas fa-undo me-2"></i>
                                 Refund Order
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
